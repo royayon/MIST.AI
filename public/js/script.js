@@ -68,7 +68,7 @@ function synthVoiceFirst(text) {
             synthVoice(text);
             clearInterval(timer);
         }
-    }, 100);
+    }, 200);
 
 
 
