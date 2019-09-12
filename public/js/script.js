@@ -39,12 +39,48 @@ recognition.addEventListener('error', (e) => {
     outputBot.textContent = 'Error: ' + e.error;
 });
 
+
+
+function synthVoiceFirst(text) {
+    var flag = 0;
+
+    const awaitVoices = new Promise(resolve =>
+            window.speechSynthesis.onvoiceschanged = resolve)
+        .then(() => {
+            const synth = window.speechSynthesis;
+            const utterance = new SpeechSynthesisUtterance();
+
+            var voices = synth.getVoices();
+
+
+            utterance.voice = voices[4];
+            utterance.volume = 1;
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            utterance.text = text;
+
+            synth.speak(utterance);
+            flag = 1;
+        });
+
+    var timer = setInterval(function () {
+        if (flag == 0) {
+            synthVoice(text);
+            clearInterval(timer);
+        }
+    }, 100);
+
+
+
+}
+
 function synthVoice(text) {
     const synth = window.speechSynthesis;
     const utterance = new SpeechSynthesisUtterance();
-    const voices = window.speechSynthesis.getVoices();
+    const voices = synth.getVoices();
     utterance.volume = 1;
-    utterance.voice = window.speechSynthesis.getVoices().filter(function (voice) {
+    utterance.default = false;
+    utterance.voice = voices.filter(function (voice) {
         return voice.name == "Google UK English Female"
 
     })[0];
@@ -55,7 +91,7 @@ function synthVoice(text) {
 }
 
 socket.on('bot reply', function (replyText) {
-    synthVoice(replyText);
+    synthVoiceFirst(replyText);
 
     if (replyText == '') replyText = '(No answer...)';
     outputBot.textContent = replyText;
