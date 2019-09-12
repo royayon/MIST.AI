@@ -1,0 +1,28 @@
+{
+  "name": "mist.ai",
+  "version": "1.0.0",
+  "description": "Artificial Intelligence web-app for our university MIST.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/royayon/MIST.AI.git"
+  },
+  "author": "Ayon Roy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/royayon/MIST.AI/issues"
+  },
+  "homepage": "https://github.com/royayon/MIST.AI#readme",
+  "dependencies": {
+    "apiai": "^4.0.3",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "nodemon": "^1.19.2",
+    "path": "^0.12.7",
+    "socket.io": "^2.2.0"
+  }
+}
