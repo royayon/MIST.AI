@@ -9,7 +9,7 @@ app.use(express.static(__dirname + '/views')); // html
 app.use(express.static(__dirname + '/public')); // js, css, images
 
 
-const port = 5000 || process.env.PORT;
+const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
     console.log('Server started on port ' + port);
 })
