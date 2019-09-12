@@ -60,7 +60,7 @@ function synthVoiceFirst(text) {
             utterance.pitch = 1;
             utterance.text = text;
 
-            synth.speak(utterance);
+            synth.speak('.');
             flag = 1;
             timeDelay = 0;
         });
