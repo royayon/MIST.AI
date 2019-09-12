@@ -40,6 +40,7 @@ recognition.addEventListener('error', (e) => {
 });
 
 
+var timeDelay = 500;
 
 function synthVoiceFirst(text) {
     var flag = 0;
@@ -61,6 +62,7 @@ function synthVoiceFirst(text) {
 
             synth.speak(utterance);
             flag = 1;
+            timeDelay = 0;
         });
 
     var timer = setInterval(function () {
@@ -68,7 +70,7 @@ function synthVoiceFirst(text) {
             synthVoice(text);
             clearInterval(timer);
         }
-    }, 200);
+    }, timeDelay);
 
 
 
