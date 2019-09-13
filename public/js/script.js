@@ -152,7 +152,8 @@ socket.on('bot reply', function (replyText) {
 });
 
 function talkback(replyText) {
-    synthVoiceFirst(replyText);
+    // synthVoiceFirst(replyText);
+    responsiveVoice.speak(replyText, "UK English Female");
 
     if (replyText == '') replyText = 'Something went wrong!';
     outputBot.textContent = replyText;
