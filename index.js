@@ -15,15 +15,10 @@ const server = app.listen(port, () => {
 })
 
 
+// Socket IO
 const io = require('socket.io')(server);
 io.on('connection', function (socket) {
     console.log('a user connected!');
-});
-
-
-
-app.get('/', (req, res) => {
-    res.sendFile('index.html');
 });
 
 io.on('connection', function (socket) {
@@ -49,4 +44,10 @@ io.on('connection', function (socket) {
         apiaiReq.end();
 
     });
+});
+
+
+// Routers
+app.get('/', (req, res) => {
+    res.sendFile('index.html');
 });

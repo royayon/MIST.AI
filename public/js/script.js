@@ -4,6 +4,8 @@ const outputYou = document.querySelector('.output-you');
 const outputBot = document.querySelector('.output-bot');
 const btn = document.querySelector('button');
 
+
+// Speech Recognition
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const recognition = new SpeechRecognition();
 
@@ -13,6 +15,8 @@ recognition.maxAlternatives = 1;
 
 btn.addEventListener('click', () => {
     recognition.start();
+    // Button Style Change to RED
+    btn.style.background = 'linear-gradient(180deg, #c62828 0%, #d32f2f 80%, #f44336 100%)';
 });
 
 recognition.addEventListener('speechstart', () => {
@@ -33,6 +37,9 @@ recognition.addEventListener('result', (e) => {
 
 recognition.addEventListener('speechend', () => {
     recognition.stop();
+    // Button Style Change to GREENISH
+    btn.style.background = 'linear-gradient(180deg, #39C2C9 0%, #3FC8C9 80%, #3FC8C9 100%)';
+
 });
 
 recognition.addEventListener('error', (e) => {
@@ -40,6 +47,8 @@ recognition.addEventListener('error', (e) => {
 });
 
 
+
+// Speech Synthesis
 var timeDelay = 500;
 
 function synthVoiceFirst(text) {
