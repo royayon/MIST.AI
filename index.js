@@ -118,9 +118,9 @@ app.post('/webhook', (req, res) => {
     console.log('WEBHOOK');
 
     res.sendFile(path.join(__dirname + '/views/navigationSys.html'));
-    // return res.json({
-    //     speech: dataToSend,
-    //     displayText: dataToSend,
-    //     source: 'get-movie-details'
-    // });
+    return res.json({
+        speech: 'done',
+        displayText: 'done',
+        source: 'MIST.AI'
+    });
 });
