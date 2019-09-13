@@ -4,6 +4,10 @@ const outputYou = document.querySelector('.output-you');
 const outputBot = document.querySelector('.output-bot');
 const btn = document.querySelector('button');
 
+// VoiceIn App Routing
+const vRouter = [
+    ['navigation', 'navigation']
+];
 
 // Speech Recognition
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -31,6 +35,28 @@ recognition.addEventListener('result', (e) => {
 
     outputYou.textContent = text;
     console.log('Confidence: ' + e.results[0][0].confidence);
+
+    //In app NLP
+    let url;
+    const link = window.location.href;
+
+    if (link.includes('mist-ai.herokuapp.com/')) {
+        url = 'https://mist-ai.herokuapp.com/';
+    } else {
+        url = 'http://localhost:5000/';
+    }
+    for (i = 0; i < vRouter.length; i++) {
+        if (text.includes(vRouter[i][0])) {
+            talkback('Taking you to ' + vRouter[i][1]);
+            var timer = setInterval(function () {
+                window.location.href = url + vRouter[i][1];
+                clearInterval(timer);
+            }, 2000);
+            // window.location.href = url2 + vRouter[i][1];
+            return;
+            break;
+        }
+    }
 
     socket.emit('chat message', text);
 });
@@ -102,8 +128,16 @@ function synthVoice(text) {
 }
 
 socket.on('bot reply', function (replyText) {
+    talkback(replyText);
+    // synthVoiceFirst(replyText);
+
+    // if (replyText == '') replyText = 'Something went wrong!';
+    // outputBot.textContent = replyText;
+});
+
+function talkback(replyText) {
     synthVoiceFirst(replyText);
 
-    if (replyText == '') replyText = '(No answer...)';
+    if (replyText == '') replyText = 'Something went wrong!';
     outputBot.textContent = replyText;
-});
+}
