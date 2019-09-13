@@ -123,10 +123,10 @@ button:focus {
 
 
 .output-bot {
-    background: #39C2C9;
     float: left;
-    padding: 20px;
+    background: #39C2C9;
     margin: 10px;
+    padding: 10px 15px 10px 15px;
     border-radius: 30px;
 }
 
@@ -134,7 +134,7 @@ button:focus {
     float: right;
     background: #0084ff;
     color: #fff;
-    padding: 20px;
+    padding: 10px 15px 10px 15px;
     border-radius: 30px;
 }
 
