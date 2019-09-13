@@ -117,10 +117,11 @@ app.post('/webhook', (req, res) => {
     const link = req.body.parameters.Link;
     console.log('WEBHOOK');
 
+    document.location.href('https://mist-ai.herokuapp.com/navigation');
     res.sendFile(path.join(__dirname + '/views/navigationSys.html'));
     return res.json({
         speech: 'done',
-        displayText: 'done',
+        fulfillmentText: 'done',
         source: 'MIST.AI'
     });
 });
