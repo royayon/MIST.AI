@@ -6,7 +6,23 @@ const btn = document.querySelector('button');
 
 // VoiceIn App Routing
 const vRouter = [
-    ['navigation', 'navigation']
+    ['navigation', 'navigation'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
+    ['about', 'about'],
 ];
 
 // Speech Recognition
