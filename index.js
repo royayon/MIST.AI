@@ -115,6 +115,7 @@ app.get('/navigation', (req, res) => {
 app.post('/webhook', (req, res) => {
 
     const link = req.body.parameters.Link;
+    console.log('WEBHOOK');
 
     res.sendFile(path.join(__dirname + '/views/navigationSys.html'));
     // return res.json({
