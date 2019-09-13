@@ -150,3 +150,9 @@ button:focus {
 .output-you:last-of-type {
     border-bottom-right-radius: 30px;
 } */
+
+section {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 50px;
+}
