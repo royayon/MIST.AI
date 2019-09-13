@@ -105,6 +105,12 @@ button:focus {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     margin-left: 10px;
+
+    /* FOR GIF AS BACKGROUND
+    background-image: url(../img/dotsF.gif);
+    background-position: center;
+    width: 100%;
+    height: 100%; */
 }
 
 .fa-github::before {
