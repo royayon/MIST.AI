@@ -82,7 +82,7 @@ function inAppNLP(text) {
         url = 'http://localhost:5000/';
     }
     for (i = 0; i < vRouter.length; i++) {
-        if (text.includes(vRouter[i][0])) {
+        if (text.toLowerCase().includes(vRouter[i][0])) {
             talkback('Taking you to ' + vRouter[i][1]);
             var timer = setInterval(function () {
                 window.location.href = url + vRouter[i][1];
