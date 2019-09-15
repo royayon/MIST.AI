@@ -55,7 +55,24 @@ recognition.addEventListener('result', (e) => {
     outputYou.textContent = text;
     console.log('Confidence: ' + e.results[0][0].confidence);
 
-    //In app NLP
+    inAppNLP(text);
+
+    //socket.emit('chat message', text);
+});
+
+recognition.addEventListener('speechend', () => {
+    recognition.stop();
+    // Button Style Change to GREENISH
+    btn.style.background = 'linear-gradient(180deg, #39C2C9 0%, #3FC8C9 80%, #3FC8C9 100%)';
+
+});
+
+recognition.addEventListener('error', (e) => {
+    outputBot.textContent = 'Error: ' + e.error;
+});
+
+//In app NLP
+function inAppNLP(text) {
     let url;
     const link = window.location.href;
 
@@ -76,20 +93,8 @@ recognition.addEventListener('result', (e) => {
             break;
         }
     }
-
     socket.emit('chat message', text);
-});
-
-recognition.addEventListener('speechend', () => {
-    recognition.stop();
-    // Button Style Change to GREENISH
-    btn.style.background = 'linear-gradient(180deg, #39C2C9 0%, #3FC8C9 80%, #3FC8C9 100%)';
-
-});
-
-recognition.addEventListener('error', (e) => {
-    outputBot.textContent = 'Error: ' + e.error;
-});
+}
 
 //Send Button Clicked
 sendBtn.addEventListener('click', () => {
@@ -98,7 +103,7 @@ sendBtn.addEventListener('click', () => {
 
 sendText.addEventListener('keypress', function (e) {
     if (e.key === 'Enter') {
-        // code for enter
+        // code for enter key pressed
         sendInText();
     }
 });
@@ -107,7 +112,8 @@ function sendInText() {
     let text = sendText.value;
     if (text != "") {
         outputYou.textContent = text;
-        socket.emit('chat message', text);
+        inAppNLP(text);
+        //socket.emit('chat message', text);
         sendText.value = "";
     }
 }
