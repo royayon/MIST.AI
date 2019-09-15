@@ -58,7 +58,7 @@ section {
     width: 400px;
 }
 
-button {
+.microbtn {
     display: block;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -84,16 +84,16 @@ button .fa {
     text-shadow: 1px 2px 2px #2a8b90;
 }
 
-button:hover {
+.microbtn:hover {
     transform: scale(.92);
 }
 
-button:active {
+.microbtn:active {
     filter: brightness(.8);
     /* background: linear-gradient(180deg, #c62828 0%, #d32f2f 80%, #f44336 100%); */
 }
 
-button:focus {
+.microbtn:focus {
     outline: 0;
 }
 
@@ -136,6 +136,42 @@ button:focus {
     color: #fff;
     padding: 10px 15px 10px 15px;
     border-radius: 30px;
+}
+
+.input-group {
+    margin-top: 115px;
+    /* margin-right: 20px; */
+    outline: none !important;
+    border-radius: 20px;
+    padding: 8px;
+    background-color: #0084ff;
+}
+
+.form-control {
+    width: 90%;
+    padding: 15px;
+    border: none !important;
+    border-radius: 20px !important;
+}
+
+.form-control:focus {
+    outline: 0;
+}
+
+.input-group-text {
+    background: transparent !important;
+    border: none !important;
+}
+
+.input-group .fa {
+    color: #ffffff;
+    float: right;
+    margin-right: 7px;
+    margin-top: 12px;
+}
+
+.input-group .fa:hover {
+    transform: scale(.92);
 }
 
 /* .output-bot+.output-you {

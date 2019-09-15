@@ -3,6 +3,9 @@ const socket = io();
 const outputYou = document.querySelector('.output-you');
 const outputBot = document.querySelector('.output-bot');
 const btn = document.querySelector('button');
+const sendBtn = document.querySelector('.input-group .fa');
+const sendText = document.querySelector('.form-control');
+
 
 // VoiceIn App Routing
 const vRouter = [
@@ -87,6 +90,24 @@ recognition.addEventListener('speechend', () => {
 recognition.addEventListener('error', (e) => {
     outputBot.textContent = 'Error: ' + e.error;
 });
+
+//Send Button Clicked
+sendBtn.addEventListener('click', () => {
+    sendInText();
+});
+
+sendText.addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+        // code for enter
+        sendInText();
+    }
+});
+
+function sendInText() {
+    let text = sendText.value;
+    outputYou.textContent = text;
+    socket.emit('chat message', text);
+}
 
 
 
