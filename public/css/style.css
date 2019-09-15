@@ -201,6 +201,20 @@ button .fa {
         width: auto;
         margin: 30px;
     }
+
+    .form-control {
+        width: 85%;
+        padding: 12px;
+        border: none !important;
+        border-radius: 20px !important;
+    }
+
+    .input-group .fa {
+        color: #ffffff;
+        float: right;
+        margin-right: 5.5px;
+        margin-top: 9px;
+    }
 }
 
 
