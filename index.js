@@ -110,14 +110,21 @@ app.get('/navigation', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/navigationSys.html'));
 });
 
-// // Dialogflow Webhook
-// app.post('/webhook', (req, res) => {
+// Dialogflow Webhook
+app.post('/webhook', (req, res) => {
 
-//     const link = req.body.parameters.Link;
+    const link = req.body.parameters.Link;
+    alert(req.body);
 
-//     return res.json({
-//         speech: 'done',
-//         fulfillmentText: 'done',
-//         source: 'MIST.AI'
-//     });
-// });
+    // return res.json({
+    //     speech: 'done',
+    //     fulfillmentText: 'done',
+    //     source: 'MIST.AI'
+    // });
+});
+
+function nav() {
+    app.get('/navigation', (req, res) => {
+        res.sendFile(path.join(__dirname + '/views/navigationSys.html'));
+    });
+}
