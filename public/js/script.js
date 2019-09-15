@@ -107,6 +107,7 @@ function sendInText() {
     let text = sendText.value;
     outputYou.textContent = text;
     socket.emit('chat message', text);
+    sendText.value = "";
 }
 
 
