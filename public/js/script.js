@@ -6,22 +6,12 @@ const btn = document.querySelector('button');
 const sendBtn = document.querySelector('.input-group .fa');
 const sendText = document.querySelector('.form-control');
 
+const magic_word = "jupyter";
+
 
 // VoiceIn App Routing
 const vRouter = [
     ['navigation', 'navigation'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
     ['about', 'about'],
     ['about', 'about'],
     ['about', 'about'],
@@ -36,7 +26,10 @@ recognition.lang = 'en-US';
 recognition.interimResults = false;
 recognition.maxAlternatives = 1;
 
+
 btn.addEventListener('click', () => {
+    annyang.abort();
+    responsiveVoice.speak("yes?", "UK English Female");
     recognition.start();
     // Button Style Change to RED
     btn.style.background = 'linear-gradient(180deg, #c62828 0%, #d32f2f 80%, #f44336 100%)';
@@ -56,6 +49,8 @@ recognition.addEventListener('result', (e) => {
     console.log('Confidence: ' + e.results[0][0].confidence);
 
     inAppNLP(text);
+    annyang.resume();
+    //annyang.start();
 
     //socket.emit('chat message', text);
 });
@@ -64,6 +59,8 @@ recognition.addEventListener('speechend', () => {
     recognition.stop();
     // Button Style Change to GREENISH
     btn.style.background = 'linear-gradient(180deg, #39C2C9 0%, #3FC8C9 80%, #3FC8C9 100%)';
+
+    annyang.resume();
 
 });
 
