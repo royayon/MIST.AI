@@ -57,7 +57,7 @@ recognition.addEventListener('result', (e) => {
 
 recognition.addEventListener('speechend', () => {
     recognition.stop();
-    // Button Style Change to GREENISH
+    // Button Style Change to GREENISHs
     btn.style.background = 'linear-gradient(180deg, #39C2C9 0%, #3FC8C9 80%, #3FC8C9 100%)';
 
     annyang.resume();
