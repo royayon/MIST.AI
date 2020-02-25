@@ -1,37 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>MIST.AI</title>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/style.css">
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
 
-<body>
+  <body>
     <section>
-        <h1>MIST.AI</h1>
-        <h2>An AI for the Students, By the Students.</h2>
+      <h1>MIST.AI</h1>
+      <h2>An AI for the Students, By the Students.</h2>
 
-        <button class="microbtn"><i class="fa fa-microphone"></i></button>
+      <button class="microbtn"><i class="fa fa-microphone"></i></button>
 
-        <div>
-            <p><em class="output-you">...</em></p><br>
-            <p><em class="output-bot">...</em></p>
-        </div>
+      <div>
+        <p><em class="output-you">...</em></p>
+        <br />
+        <p><em class="output-bot">...</em></p>
+      </div>
 
-
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Write something...">
-            <!-- <div class="input-group-append"> -->
-            <span class="input-group-text"><i class="fa fa-paper-plane"></i></span>
-            <!-- </div> -->
-        </div>
+      <div class="input-group">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Write something..."
+        />
+        <!-- <div class="input-group-append"> -->
+        <span class="input-group-text"><i class="fa fa-paper-plane"></i></span>
+        <!-- </div> -->
+      </div>
     </section>
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
     <script src="js/script.js"></script>
@@ -41,21 +46,20 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 
     <script>
-        if (annyang) {
-            // Let's define our first command. First the text we expect, and then the function it should call
-            var commands = {
-                'mina': function () {
-                    document.querySelector('button').click();
-                }
-            };
+      if (annyang) {
+        // Let's define our first command. First the text we expect, and then the function it should call
+        var commands = {
+          mina: function() {
+            document.querySelector("button").click();
+          }
+        };
 
-            // Add our commands to annyang
-            annyang.addCommands(commands);
+        // Add our commands to annyang
+        annyang.addCommands(commands);
 
-            // Start listening. You can call this here, or attach this call to an event, button, etc.
-            annyang.start();
-        }
+        // Start listening. You can call this here, or attach this call to an event, button, etc.
+        annyang.start({ autoRestart: false, continuous: false });
+      }
     </script>
-</body>
-
+  </body>
 </html>
