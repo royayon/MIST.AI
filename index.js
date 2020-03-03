@@ -110,6 +110,10 @@ app.get('/navigation', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/navigationSys.html'));
 });
 
+app.get('/dashboard', (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/dashboard.html'));
+});
+
 // // Dialogflow Webhook
 // app.post('/webhook', (req, res) => {
 

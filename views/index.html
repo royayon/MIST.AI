@@ -1,65 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>MIST.AI</title>
 
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link rel="stylesheet" href="css/style.css" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>MIST.AI</title>
 
-  <body>
-    <section>
-      <h1>MIST.AI</h1>
-      <h2>An AI for the Students, By the Students.</h2>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
 
-      <button class="microbtn"><i class="fa fa-microphone"></i></button>
+<body>
+  <section>
+    <center>
+      <h1 style="display: inline;margin-left:50px">MIST.AI</h1>
 
-      <div>
-        <p><em class="output-you">...</em></p>
-        <br />
-        <p><em class="output-bot">...</em></p>
-      </div>
+      <a href="/dashboard" style="float: right;"><img src="img/menu_icon2.png" style="width: 50px;height: 50px;"></a>
+    </center>
+    <h2>An AI for the Students, By the Students.</h2>
 
-      <div class="input-group">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Write something..."
-        />
-        <!-- <div class="input-group-append"> -->
-        <span class="input-group-text"><i class="fa fa-paper-plane"></i></span>
-        <!-- </div> -->
-      </div>
-    </section>
+    <button class="microbtn"><i class="fa fa-microphone"></i></button>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
-    <script src="js/script.js"></script>
+    <div>
+      <p><em class="output-you">...</em></p>
+      <br />
+      <p><em class="output-bot">...</em></p>
+    </div>
 
-    <script src="https://code.responsivevoice.org/responsivevoice.js?key=cqTky6bB"></script>
+    <div class="input-group">
+      <input type="text" class="form-control" placeholder="Write something..." />
+      <!-- <div class="input-group-append"> -->
+      <span class="input-group-text"><i class="fa fa-paper-plane"></i></span>
+      <!-- </div> -->
+    </div>
+  </section>
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
+  <script src="js/script.js"></script>
 
-    <script>
-      if (annyang) {
-        // Let's define our first command. First the text we expect, and then the function it should call
-        var commands = {
-          mina: function() {
-            document.querySelector("button").click();
-          }
-        };
+  <script src="https://code.responsivevoice.org/responsivevoice.js?key=cqTky6bB"></script>
 
-        // Add our commands to annyang
-        annyang.addCommands(commands);
+  <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 
-        // Start listening. You can call this here, or attach this call to an event, button, etc.
-        annyang.start({ autoRestart: true, continuous: false });
-      }
-    </script>
-  </body>
+  <script>
+    if (annyang) {
+      // Let's define our first command. First the text we expect, and then the function it should call
+      var commands = {
+        mina: function () {
+          document.querySelector("button").click();
+        }
+      };
+
+      // Add our commands to annyang
+      annyang.addCommands(commands);
+
+      // Start listening. You can call this here, or attach this call to an event, button, etc.
+      annyang.start({
+        autoRestart: true,
+        continuous: false
+      });
+    }
+  </script>
+</body>
+
 </html>
