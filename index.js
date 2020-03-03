@@ -8,6 +8,17 @@ const bodyParser = require('body-parser');
 const apiai = require('apiai')(APIAI_TOKEN);
 const router = express.Router();
 
+// Firebase
+const admin = require('firebase-admin');
+
+let serviceAccount = require(path.join(__dirname + '/mist_ai_fdb.json'));
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
+
+let db = admin.firestore();
+
 
 const app = express();
 
@@ -100,6 +111,39 @@ io.on('connection', function (socket) {
     });
 });
 
+function addToDB(docRef, jsonObj) {
+    docRef.add(jsonObj);
+}
+
+function getFromDB(docRef) {
+    return docRef
+        .get()
+        .then(function (querySnapshot) {
+            return querySnapshot.docs.map(doc => Object.assign(doc.data(), {
+                id: doc.id
+            }));
+        });
+}
+
+
+
+app.get('/db', (req, res) => {
+    // Add TO DB
+    // let setAda = {
+    //     first: 'Ayon',
+    //     last: 'Roy',
+    //     born: 1998
+    // };
+
+    // addToDB(db.collection('users'), setAda);
+
+
+    //Get JSON
+    let obj = getFromDB(db.collection('users')).then(o => {
+        console.log(o);
+    });
+
+});
 
 // Routers
 app.get('/', (req, res) => {
@@ -113,6 +157,23 @@ app.get('/navigation', (req, res) => {
 app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/dashboard.html'));
 });
+
+
+// Routers POST
+app.post('/setReminder', (req, res) => {
+    let title = req.body.title;
+    let desc = req.body.desc;
+    let time = req.body.time;
+
+    let reminder = {
+        title,
+        desc,
+        time
+    };
+
+    addToDB(db.collection('reminders'), reminder);
+});
+
 
 // // Dialogflow Webhook
 // app.post('/webhook', (req, res) => {
