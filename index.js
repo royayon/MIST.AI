@@ -112,7 +112,8 @@ io.on('connection', function (socket) {
 });
 
 function addToDB(docRef, jsonObj) {
-    docRef.add(jsonObj);
+    let ref = docRef.add(jsonObj).then();
+    return true;
 }
 
 function getFromDB(docRef) {
@@ -158,6 +159,10 @@ app.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/dashboard.html'));
 });
 
+app.get('/reminder', (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/reminder.html'));
+});
+
 
 // Routers POST
 app.post('/setReminder', (req, res) => {
@@ -172,6 +177,8 @@ app.post('/setReminder', (req, res) => {
     };
 
     addToDB(db.collection('reminders'), reminder);
+    res.sendFile(path.join(__dirname + '/views/reminder.html'));
+
 });
 
 
