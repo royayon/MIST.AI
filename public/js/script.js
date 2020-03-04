@@ -30,8 +30,8 @@ recognition.maxAlternatives = 1;
 btn.addEventListener('click', () => {
     if (!detectMob()) {
         annyang.abort();
+        responsiveVoice.speak("yes?", "UK English Female");
     }
-    responsiveVoice.speak("yes?", "UK English Female");
     recognition.start();
     // Button Style Change to RED
     btn.style.background = 'linear-gradient(180deg, #c62828 0%, #d32f2f 80%, #f44336 100%)';
