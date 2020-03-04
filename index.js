@@ -163,6 +163,10 @@ app.get('/reminder', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/reminder.html'));
 });
 
+app.get('/weather', (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/weather.html'));
+});
+
 
 // Routers POST
 app.post('/setReminder', (req, res) => {
