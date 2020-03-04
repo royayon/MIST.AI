@@ -46,6 +46,22 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 
   <script>
+    function detectMob() {
+      const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+      ];
+
+      return toMatch.some((toMatchItem) => {
+        return navigator.userAgent.match(toMatchItem);
+      });
+    }
+
     if (annyang) {
       // Let's define our first command. First the text we expect, and then the function it should call
       var commands = {
@@ -58,10 +74,14 @@
       annyang.addCommands(commands);
 
       // Start listening. You can call this here, or attach this call to an event, button, etc.
-      annyang.start({
-        autoRestart: true,
-        continuous: false
-      });
+
+      if (!detectMob()) {
+
+        annyang.start({
+          autoRestart: true,
+          continuous: false
+        });
+      }
     }
   </script>
 </body>
