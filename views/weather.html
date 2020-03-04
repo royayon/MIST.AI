@@ -290,7 +290,69 @@
     </section>
   </center>
 
+  <!-- <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+  <script type="text/javascript">
+    var geocoder;
 
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(successFunction, errorFunction);
+    }
+    //Get the latitude and the longitude;
+    function successFunction(position) {
+      var lat = position.coords.latitude;
+      var lng = position.coords.longitude;
+      codeLatLng(lat, lng)
+    }
+
+    function errorFunction() {
+      alert("Geocoder failed");
+    }
+
+    function initialize() {
+      geocoder = new google.maps.Geocoder();
+
+
+
+    }
+
+    function codeLatLng(lat, lng) {
+
+      var latlng = new google.maps.LatLng(lat, lng);
+      geocoder.geocode({
+        'latLng': latlng
+      }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          console.log(results)
+          if (results[1]) {
+            //formatted address
+            alert(results[0].formatted_address)
+            //find country name
+            for (var i = 0; i < results[0].address_components.length; i++) {
+              for (var b = 0; b < results[0].address_components[i].types.length; b++) {
+
+                //there are different types that might hold a city admin_area_lvl_1 usually does in come cases looking for sublocality type will be more appropriate
+                if (results[0].address_components[i].types[b] == "administrative_area_level_1") {
+                  //this is the object you are looking for
+                  city = results[0].address_components[i];
+                  break;
+                }
+              }
+            }
+            //city data
+            alert(city.short_name + " " + city.long_name)
+
+
+          } else {
+            alert("No results found");
+          }
+        } else {
+          alert("Geocoder failed due to: " + status);
+        }
+      });
+    }
+  </script> -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script>
     /*SEARCH BY USING A CITY NAME (e.g. athens) OR A COMMA-SEPARATED CITY NAME ALONG WITH THE COUNTRY CODE (e.g. athens,gr)*/
     const form = document.querySelector(".top-banner form");
@@ -303,43 +365,59 @@ SUBSCRIBE HERE: https://home.openweathermap.org/users/sign_up*/
     //const apiKey = "37b25995308bb6aa442393d4d3e94d88";
 
 
-    inputVal = "Dhaka";
-    console.log(inputVal);
-    //ajax here
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${apiKey}&units=metric`;
+    var inputVal = "Dhaka";
+    lat = 23.777176;
+    lon = 90.399452;
 
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        const {
-          main,
-          name,
-          sys,
-          weather
-        } = data;
-        const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0]["icon"]}.svg`;
+    // $.get("http://ipinfo.io", function (response) {
+    //   console.log(response.region);
+    // }, "jsonp");
 
-        const li = document.createElement("li");
-        li.classList.add("city");
-        const markup = `
-        <h2 class="city-name" data-name="${name},${sys.country}">
-          <span>${name}</span>
-          <sup>${sys.country}</sup>
-        </h2>
-        <div class="city-temp">${Math.round(main.temp)}<sup>°C</sup></div>
-        <figure>
-          <img class="city-icon" src="${icon}" alt="${
-              weather[0]["description"]
-            }">
-          <figcaption>${weather[0]["description"]}</figcaption>
-        </figure>
-      `;
-        li.innerHTML = markup;
-        list.appendChild(li);
-      })
-      .catch(() => {
-        msg.textContent = "Please search for a valid city 😩";
-      });
+    $.ajax({
+      url: "https://geolocation-db.com/jsonp",
+      jsonpCallback: "callback",
+      dataType: "jsonp",
+      success: function (location) {
+        inputVal = location.city;
+        //ajax here
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${inputVal}&appid=${apiKey}&units=metric`;
+
+        //const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+        fetch(url)
+          .then(response => response.json())
+          .then(data => {
+            const {
+              main,
+              name,
+              sys,
+              weather
+            } = data;
+            const icon = `https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/${weather[0]["icon"]}.svg`;
+
+            const li = document.createElement("li");
+            li.classList.add("city");
+            const markup = `
+    <h2 class="city-name" data-name="${name},${sys.country}">
+      <span>${name}</span>
+      <sup>${sys.country}</sup>
+    </h2>
+    <div class="city-temp">${Math.round(main.temp)}<sup>°C</sup></div>
+    <figure>
+      <img class="city-icon" src="${icon}" alt="${
+          weather[0]["description"]
+        }">
+      <figcaption>${weather[0]["description"]}</figcaption>
+    </figure>
+  `;
+            li.innerHTML = markup;
+            list.appendChild(li);
+          })
+          .catch(() => {
+            //msg.textContent = "Please search for a valid city ";
+          });
+      }
+    });
   </script>
 </body>
 
