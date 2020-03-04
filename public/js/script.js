@@ -28,7 +28,9 @@ recognition.maxAlternatives = 1;
 
 
 btn.addEventListener('click', () => {
-    annyang.abort();
+    if (!detectMob()) {
+        annyang.abort();
+    }
     responsiveVoice.speak("yes?", "UK English Female");
     recognition.start();
     // Button Style Change to RED
@@ -49,7 +51,9 @@ recognition.addEventListener('result', (e) => {
     console.log('Confidence: ' + e.results[0][0].confidence);
 
     inAppNLP(text);
-    annyang.resume();
+    if (!detectMob()) {
+        annyang.resume();
+    }
     //annyang.start();
 
     //socket.emit('chat message', text);
@@ -60,7 +64,9 @@ recognition.addEventListener('speechend', () => {
     // Button Style Change to GREENISHs
     btn.style.background = 'linear-gradient(180deg, #39C2C9 0%, #3FC8C9 80%, #3FC8C9 100%)';
 
-    annyang.resume();
+    if (!detectMob()) {
+        annyang.resume();
+    }
 
 });
 
@@ -70,7 +76,9 @@ recognition.addEventListener('error', (e) => {
     btn.style.background = 'linear-gradient(180deg, #39C2C9 0%, #3FC8C9 80%, #3FC8C9 100%)';
 
     outputBot.textContent = 'Error: ' + e.error;
-    annyang.resume();
+    if (!detectMob()) {
+        annyang.resume();
+    }
 });
 
 //In app NLP
