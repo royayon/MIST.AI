@@ -126,6 +126,11 @@ function getFromDB(docRef) {
         });
 }
 
+function updateDB(docRef, jsonObj) {
+    let ref = docRef.update(jsonObj);
+    return true;
+}
+
 
 
 app.get('/db', (req, res) => {
@@ -167,6 +172,23 @@ app.get('/weather', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/weather.html'));
 });
 
+app.get('/addCourse', (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/addCourseAuth.html'));
+});
+
+app.get('/attendance', (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/attendance.html'));
+});
+
+app.get('/getCourses', (req, res) => {
+    //Get JSON
+    let obj = getFromDB(db.collection('courses')).then(o => {
+        //console.log(o);
+        res.send(o);
+    });
+});
+
+
 
 // Routers POST
 app.post('/setReminder', (req, res) => {
@@ -184,6 +206,57 @@ app.post('/setReminder', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/reminder.html'));
 
 });
+
+app.post('/addCourse', (req, res) => {
+    let pass = req.body.pass;
+    if (pass == "iamfaculty") {
+        res.sendFile(path.join(__dirname + '/views/addCourse.html'));
+    } else {
+        res.sendFile(path.join(__dirname + '/views/error.html'));
+    }
+
+});
+
+app.post('/addACourse', (req, res) => {
+    let courseName = req.body.courseName;
+    let credit = req.body.sellist1;
+    let creativity = req.body.creativity;
+    let memorization = req.body.memorization;
+    let computation = req.body.computation;
+    let analysis = req.body.analysis;
+
+    let absent = 0;
+    let timeSlot = 0;
+
+    let course = {
+        courseName,
+        credit,
+        creativity,
+        memorization,
+        computation,
+        analysis,
+        absent,
+        timeSlot
+    };
+
+    addToDB(db.collection('courses'), course);
+    res.sendFile(path.join(__dirname + '/views/success.html'));
+
+});
+
+app.post('/updateAbsent', (req, res) => {
+    let absent = req.body.absent;
+    let id = req.body.id;
+
+    let updateObj = {
+        absent
+    };
+
+    updateDB(db.collection('courses').doc(id), updateObj);
+    //res.sendFile(path.join(__dirname + '/views/attendance.html'));
+
+});
+
 
 
 // // Dialogflow Webhook

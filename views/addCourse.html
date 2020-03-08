@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<title>Add Course</title>
+	<meta charset="utf-8">
+	<link rel="icon" href="img/mistAI.png">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+	<style type="text/css">
+		* {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		body {
+			margin: 0px;
+			padding: 0px;
+		}
+
+		.card {
+			border-radius: 15px;
+		}
+
+		.col01 {
+			margin: auto;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div class="row">
+
+		<div class="col01 col-md-6 col-sm-9"><br>
+
+			<div class="card">
+				<div class="card-body">
+
+					<br>
+					<center>
+						<h1>Add New Course</h1>
+					</center><br>
+
+					<form method="POST" action="/addACourse">
+						<div class=" form-group">
+							<label for="usr">Course Name:</label><br>
+							<input type="text" class="form-control" id="usr" name="courseName" required>
+						</div>
+
+						<div class="form-group">
+							<label for="sel1">Select Credit:</label>
+							<select class="form-control" id="sel1" name="sellist1" required>
+								<option>3.00</option>
+								<option>4.00</option>
+								<option>2.00</option>
+								<option>1.50</option>
+								<option>0.75</option>
+							</select>
+							<br>
+						</div>
+
+						<label for="sel1">Creativity :</label><br>
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r1" name="creativity" value="1"
+								required>1&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r2" name="creativity" value="2"
+								required>2&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r3" name="creativity" value="3"
+								required>3&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r4" name="creativity" value="4"
+								required>4&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r5" name="creativity" value="5" required>5
+						</div>
+
+						<br><br>
+
+						<label for="sel1">Memorization :</label><br>
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r6" name="memorization" value="1"
+								required>1&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r7" name="memorization" value="2"
+								required>2&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r8" name="memorization" value="3"
+								required>3&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r9" name="memorization" value="4"
+								required>4&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r10" name="memorization" value="5"
+								required>5
+						</div>
+
+						<br><br>
+
+						<label for="sel1">Computation :</label><br>
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r11" name="computation" value="1"
+								required>1&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r12" name="computation" value="2"
+								required>2&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r13" name="computation" value="3"
+								required>3&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r14" name="computation" value="4"
+								required>4&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r15" name="computation" value="5"
+								required>5
+						</div>
+
+						<br><br>
+
+
+						<label for="sel1">Analysis :</label><br>
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r16" name="analysis" value="1"
+								required>1&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r17" name="analysis" value="2"
+								required>2&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r18" name="analysis" value="3"
+								required>3&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r19" name="analysis" value="4"
+								required>4&nbsp;&nbsp;&nbsp;
+						</div>
+
+						<div class="form-check-inline">
+							<input type="radio" class="form-check-input" id="r20" name="analysis" value="5" required>5
+						</div>
+
+						<br><br><br>
+						<button type="submit" class="btn btn-primary">Submit</button>
+					</form>
+
+				</div>
+			</div><br><br>
+		</div>
+	</div>
+
+</body>
+
+</html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="img/mistAI.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+  <title>Attendance</title>
+
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    /* .c1 {
+        font-size: 25px;
+      } */
+
+    i:hover {
+      cursor: pointer;
+    }
+
+    /* .mini {
+        display: none;
+      } */
+
+    button {
+      border: none;
+      outline: none;
+      width: 30px;
+      height: 30px;
+      color: black;
+      background-color: yellow;
+      text-align: center;
+      border-radius: 30px !important;
+    }
+
+    /* input {
+        text-align: center;font-weight: bold;
+      } */
+  </style>
+</head>
+
+<body>
+  <br />
+  <center>
+    <h2>Attendance</h2>
+  </center>
+  <br />
+  <div id="first" class="container">
+    <br />
+    <!-- <div class="cc card">
+        <div class="c1 card-body">
+          <span id="sub">AI</span>
+          <i
+            style="float: right; font-size: 30px; vertical-align: middle;"
+            class="drop fa fa-chevron-circle-down"
+            aria-hidden="true"
+          ></i>
+
+          <i
+            style="float: right; font-size: 30px; vertical-align: middle; display: none;"
+            class="up fa fa-chevron-circle-up"
+            aria-hidden="true"
+          ></i>
+        </div>
+
+        <div
+          class="mini"
+          style="padding: 15px; background-color: black; color: white;"
+        >
+          <section>
+            <center>
+              <button class="dec button1">-</button>
+              <input type="text" name="SADD_" id="SADD_" value="0" />
+              <button class="inc button1">+</button>
+            </center>
+          </section>
+          <br />
+
+          <section>
+            <article style="float: left;">
+              <h4 style="font-weight: 400;">Estimated Attendance</h4>
+            </article>
+            <article style="float: right;">
+              <h4 class="est01" style="font-weight: 400;">100%</h4>
+            </article>
+          </section>
+          <br /><br />
+
+          <section>
+            <article style="float: left;">
+              <h4 style="font-weight: 400;">Non-collegiate</h4>
+            </article>
+            <article style="float: right;">
+              <h4 class="est02" style="font-weight: 400;">0</h4>
+            </article>
+          </section>
+          <br /><br />
+
+          <section>
+            <article style="float: left;">
+              <h4 style="font-weight: 400;">Dis-collegiate</h4>
+            </article>
+            <article style="float: right;">
+              <h4 class="est03" style="font-weight: 400;">0</h4>
+            </article>
+          </section>
+          <br /><br />
+        </div>
+      </div> -->
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <script>
+    // var subjs = [{
+    //     "course": "AI",
+    //     "credit": 3
+    //   },
+    //   {
+    //     "course": "Compiler",
+    //     "credit": 3
+    //   },
+    //   {
+    //     "course": "AI Lab",
+    //     "credit": 3
+    //   },
+    //   {
+    //     "course": "SADD",
+    //     "credit": 3
+    //   }
+    // ]
+
+
+
+    // const getCoursesAll = async () => {
+    //   let response = await fetch('/getCourses');
+    //   var subjs = await response.json();
+    //   console.log(subjs);
+    //   // do something with subjs
+    // };
+
+    fetch('/getCourses').then(response => response.json()).then(data => {
+      var subjs = data;
+      for (let i = 0; i < subjs.length; i++) {
+        var xc = i + 1;
+        subAdd(subjs[i].courseName, subjs[i].credit, subjs[i].absent, subjs[i].id, xc);
+
+      }
+    });
+
+    // for (let i = 0; i < subjs.length; i++) {
+    //   var xc = i + 1;
+    //   subAdd(subjs[i].course, subjs[i].credit, xc);
+
+    // }
+
+    function subAdd(courseN, credit, absent, id, xc) {
+      //   var x = document.getElementById("first").innerHTML;
+      $(".container").append(
+        '<br><div class="cc' + xc + ' card"><div style="font-size: 25px;" class="c1' + xc +
+        ' card-body"><span id="sub' + xc + '">' + courseN +
+        '</span><i style="float: right; font-size: 30px; vertical-align: middle;" class="drop' + xc +
+        ' fa fa-chevron-circle-down" aria-hidden="true"></i><i style="float: right; font-size: 30px; vertical-align: middle; display: none;" class="up' +
+        xc + ' fa fa-chevron-circle-up" aria-hidden="true"></i></div><div class="mini' + xc +
+        '" style="display: none; padding: 15px; background-color: black; color: white;"><section><center><button class="dec' +
+        xc + ' button1' + xc +
+        '">-</button>&nbsp;&nbsp;<input style="text-align: center; font-weight: bold;" type="text" name="SADD_" id="SADD_' +
+        xc + '" value="' + absent + '" />&nbsp;&nbsp;<button class="inc' + xc + ' button1' + xc +
+        '">+</button></center></section><br /><section><article style="float: left;"><h4 style="font-weight: 400;">Estimated Attendance</h4></article><article style="float: right;"><h4 class="est01' +
+        xc +
+        '" style="font-weight: 400;">100%</h4></article></section><br /><br /><section><article style="float: left;"><h4 style="font-weight: 400;">Non-collegiate</h4></article><article style="float: right;"><h4 class="est02' +
+        xc +
+        '" style="font-weight: 400;">0</h4></article></section><br /><br /><section><article style="float: left;"><h4 style="font-weight: 400;">Dis-collegiate</h4></article><article style="float: right;"><h4 class="est03' +
+        xc + '" style="font-weight: 400;">0</h4></article></section><br /><br /></div></div>'
+      );
+
+      $(".drop" + xc).on("click", function () {
+        $(".drop" + xc).hide();
+        $(".up" + xc).show();
+        $(".mini" + xc).slideDown(1000);
+      });
+
+      $(".up" + xc).on("click", function () {
+        $(".up" + xc).hide();
+        $(".drop" + xc).show();
+        $(".mini" + xc).slideUp(1000);
+      });
+
+      $(document).ready(function () {
+        var $button = $(".button1" + xc);
+        var oldValue = $button
+          .parent()
+          .find("input")
+          .val();
+
+        var newVal = oldValue;
+
+        var pA = (
+          ((credit * 14 - parseInt(newVal)) / (credit * 14)) *
+          100
+        ).toFixed(2);
+        $(".est01" + xc).html(pA + "%");
+
+        var nc = Math.round(credit * 14 - credit * 14 * 0.85 - newVal);
+        if (nc >= 0) {
+          $(".est02" + xc).html(nc);
+        } else {
+          $(".est02" + xc).html("Non-collegiate");
+        }
+
+        var dc = Math.round(credit * 14 - credit * 14 * 0.75 - newVal - 1);
+        if (dc >= 0) {
+          $(".est03" + xc).html(dc);
+        } else {
+          $(".est03" + xc).html("Dis-collegiate");
+        }
+      });
+
+      $(".button1" + xc).on("click", function () {
+        var $button = $(this);
+        var oldValue = $button
+          .parent()
+          .find("input")
+          .val();
+
+        if ($button.text() == "+") {
+          if (oldValue < 14 * credit) {
+            var newVal = parseFloat(oldValue) + 1;
+            $.post('/updateAbsent', {
+                "absent": newVal,
+                "id": id
+              },
+              'json');
+          } else {
+            newVal = oldValue;
+          }
+        } else {
+          // Don't allow decrementing below zero
+          if (oldValue > 0) {
+            var newVal = parseFloat(oldValue) - 1;
+            $.post('/updateAbsent', {
+                "absent": newVal,
+                "id": id
+              },
+              'json');
+          } else {
+            newVal = 0;
+          }
+        }
+
+        $button
+          .parent()
+          .find("input")
+          .val(newVal);
+
+        //var credit = credit;
+
+        var pA = (
+          ((credit * 14 - parseInt(newVal)) / (credit * 14)) *
+          100
+        ).toFixed(2);
+        $(".est01" + xc).html(pA + "%");
+
+        var nc = Math.round(credit * 14 - credit * 14 * 0.85 - newVal);
+        if (nc >= 0) {
+          $(".est02" + xc).html(nc);
+        } else {
+          $(".est02" + xc).html("Non-collegiate");
+        }
+
+        var dc = Math.round(credit * 14 - credit * 14 * 0.75 - newVal - 1);
+        if (dc >= 0) {
+          $(".est03" + xc).html(dc);
+        } else {
+          $(".est03" + xc).html("Dis-collegiate");
+        }
+      });
+
+
+      //xc += 1;
+    }
+
+    //   $(".drop").on("click", function() {
+    //     $(".drop").hide();
+    //     $(".up").show();
+    //     $(".mini").slideDown(1000);
+    //   });
+
+    //   $(".up").on("click", function() {
+    //     $(".up").hide();
+    //     $(".drop").show();
+    //     $(".mini").slideUp(1000);
+    //   });
+
+    //   $(".button1").on("click", function() {
+    //     var $button = $(this);
+    //     var oldValue = $button
+    //       .parent()
+    //       .find("input")
+    //       .val();
+
+    //     if ($button.text() == "+") {
+    //       var newVal = parseFloat(oldValue) + 1;
+    //     } else {
+    //       // Don't allow decrementing below zero
+    //       if (oldValue > 0) {
+    //         var newVal = parseFloat(oldValue) - 1;
+    //       } else {
+    //         newVal = 0;
+    //       }
+    //     }
+
+    //     $button
+    //       .parent()
+    //       .find("input")
+    //       .val(newVal);
+
+    //     var credit = 3;
+
+    //     var pA = (
+    //       ((credit * 14 - parseInt(newVal)) / (credit * 14)) *
+    //       100
+    //     ).toFixed(2);
+    //     $(".est01").html(pA + "%");
+
+    //     var nc = Math.round(credit * 14 - credit * 14 * 0.85 - newVal);
+    //     if (nc >= 0) {
+    //       $(".est02").html(nc);
+    //     } else {
+    //       $(".est02").html("Non-collegiate");
+    //     }
+
+    //     var dc = Math.round(credit * 14 - credit * 14 * 0.75 - newVal - 1);
+    //     if (dc >= 0) {
+    //       $(".est03").html(dc);
+    //     } else {
+    //       $(".est03").html("Dis-collegiate");
+    //     }
+    //   });
+
+    //   subAdd();
+    //   subAdd();
+  </script>
+</body>
+
+</html>
