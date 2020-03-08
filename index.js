@@ -111,6 +111,9 @@ io.on('connection', function (socket) {
     });
 });
 
+
+// CLOUD FIRESTORE CRUD
+
 function addToDB(docRef, jsonObj) {
     let ref = docRef.add(jsonObj).then();
     return true;
@@ -128,6 +131,11 @@ function getFromDB(docRef) {
 
 function updateDB(docRef, jsonObj) {
     let ref = docRef.update(jsonObj);
+    return true;
+}
+
+function deleteDB(docRef) {
+    let ref = docRef.delete();
     return true;
 }
 
@@ -188,6 +196,14 @@ app.get('/getCourses', (req, res) => {
     });
 });
 
+app.get('/getReminders', (req, res) => {
+    //Get JSON
+    let obj = getFromDB(db.collection('reminders')).then(o => {
+        //console.log(o);
+        res.send(o);
+    });
+});
+
 
 
 // Routers POST
@@ -203,8 +219,8 @@ app.post('/setReminder', (req, res) => {
     };
 
     addToDB(db.collection('reminders'), reminder);
-    res.sendFile(path.join(__dirname + '/views/reminder.html'));
-
+    //res.sendFile(path.join(__dirname + '/views/reminder.html'));
+    res.redirect("/reminder");
 });
 
 app.post('/addCourse', (req, res) => {
@@ -254,6 +270,14 @@ app.post('/updateAbsent', (req, res) => {
 
     updateDB(db.collection('courses').doc(id), updateObj);
     //res.sendFile(path.join(__dirname + '/views/attendance.html'));
+
+});
+
+app.post('/deleteReminder', (req, res) => {
+    let id = req.body.id;
+
+    deleteDB(db.collection('reminders').doc(id));
+    res.redirect(path.join(__dirname + 'reminder.html'));
 
 });
 
