@@ -22,6 +22,14 @@ let db = admin.firestore();
 
 // Tensorflow js
 const tf = require('@tensorflow/tfjs');
+// const tfn = require("@tensorflow/tfjs-node");
+// async function loadModel() {
+//     const handler = tfn.io.fileSystem("./model/my-model1.json");
+//     const model = await tf.loadModel(handler);
+// }
+// loadModel();
+
+
 
 
 const app = express();
@@ -208,16 +216,7 @@ app.get('/getReminders', (req, res) => {
     });
 });
 
-app.get('/predict', (req, res) => {
-    async function run() {
-        const model = await tf.loadLayersModel('file://model/my-model1.json');
 
-        const testSample = [4, 4, 3, 5];
-        console.log(await predictSample(testSample));
-        res.send(await predictSample(testSample));
-    }
-    run();
-});
 
 
 
@@ -257,21 +256,76 @@ app.post('/addACourse', (req, res) => {
     let analysis = req.body.analysis;
 
     let absent = 0;
-    let timeSlot = 0;
+    var timeSlot;
 
-    let course = {
-        courseName,
-        credit,
-        creativity,
-        memorization,
-        computation,
-        analysis,
-        absent,
-        timeSlot
-    };
+    async function predictSample(sample) {
+        const model = await tf.loadLayersModel(
+            'https://myhttp.herokuapp.com/SPmodel2.json'
+        );
+        let result = model
+            .predict(tf.tensor(sample, [1, sample.length]))
+            .arraySync();
+        var maxValue = 0;
+        var predictedTime = 12;
+        for (var i = 0; i < 12; i++) {
+            if (result[0][i] > maxValue) {
+                predictedTime = i;
+                maxValue = result[0][i];
+            }
+        }
+        return timeFromClassNum(predictedTime);
+    }
 
-    addToDB(db.collection('courses'), course);
-    res.sendFile(path.join(__dirname + '/views/success.html'));
+    // Returns the string value for Baseball pitch labels
+    function timeFromClassNum(classNum) {
+        switch (classNum) {
+            case 0:
+                return "1";
+            case 1:
+                return "2";
+            case 2:
+                return "3";
+            case 3:
+                return "4";
+            case 4:
+                return "5";
+            case 5:
+                return "6";
+            case 6:
+                return "7";
+            case 7:
+                return "8";
+            case 8:
+                return "9";
+            case 9:
+                return "10";
+            case 10:
+                return "11";
+            case 11:
+                return "12";
+            default:
+                return "0";
+        }
+    }
+    async function run() {
+        const testSample = [parseInt(creativity), parseInt(memorization), parseInt(computation), parseInt(analysis)];
+        timeSlot = await predictSample(testSample);
+
+        let course = {
+            courseName,
+            credit,
+            creativity,
+            memorization,
+            computation,
+            analysis,
+            absent,
+            timeSlot
+        };
+
+        addToDB(db.collection('courses'), course);
+        res.sendFile(path.join(__dirname + '/views/success.html'));
+    }
+    run();
 
 });
 
@@ -294,6 +348,69 @@ app.post('/deleteReminder', (req, res) => {
     deleteDB(db.collection('reminders').doc(id));
     res.redirect(path.join(__dirname + 'reminder.html'));
 
+});
+
+app.get('/predict', (req, res) => {
+    let Creativity = 5;
+    let Memorization = 3;
+    let Computation = 2;
+    let Analysis = 1;
+
+    async function predictSample(sample) {
+        const model = await tf.loadLayersModel(
+            'https://myhttp.herokuapp.com/SPmodel2.json'
+        );
+        let result = model
+            .predict(tf.tensor(sample, [1, sample.length]))
+            .arraySync();
+        var maxValue = 0;
+        var predictedTime = 12;
+        for (var i = 0; i < 12; i++) {
+            if (result[0][i] > maxValue) {
+                predictedTime = i;
+                maxValue = result[0][i];
+            }
+        }
+        return timeFromClassNum(predictedTime);
+    }
+
+    // Returns the string value for Baseball pitch labels
+    function timeFromClassNum(classNum) {
+        switch (classNum) {
+            case 0:
+                return "1";
+            case 1:
+                return "2";
+            case 2:
+                return "3";
+            case 3:
+                return "4";
+            case 4:
+                return "5";
+            case 5:
+                return "6";
+            case 6:
+                return "7";
+            case 7:
+                return "8";
+            case 8:
+                return "9";
+            case 9:
+                return "10";
+            case 10:
+                return "11";
+            case 11:
+                return "12";
+            default:
+                return "0";
+        }
+    }
+    async function run() {
+        const testSample = [Creativity, Memorization, Computation, Analysis];
+        console.log(await predictSample(testSample));
+        res.send(await predictSample(testSample));
+    }
+    run();
 });
 
 
