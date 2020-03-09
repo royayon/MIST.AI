@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/royayon/MIST.AI#readme",
   "dependencies": {
+    "@tensorflow/tfjs-node": "^1.6.0",
     "apiai": "^4.0.3",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",

@@ -20,6 +20,10 @@ admin.initializeApp({
 let db = admin.firestore();
 
 
+// Tensorflow js
+const tf = require('@tensorflow/tfjs');
+
+
 const app = express();
 
 // Body Parser Middleware
@@ -202,6 +206,17 @@ app.get('/getReminders', (req, res) => {
         //console.log(o);
         res.send(o);
     });
+});
+
+app.get('/predict', (req, res) => {
+    async function run() {
+        const model = await tf.loadLayersModel('file://model/my-model1.json');
+
+        const testSample = [4, 4, 3, 5];
+        console.log(await predictSample(testSample));
+        res.send(await predictSample(testSample));
+    }
+    run();
 });
 
 
