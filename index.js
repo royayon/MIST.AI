@@ -285,13 +285,14 @@ app.get('/setStudyPlanner', (req, res) => {
         }).sort(sortByProperty("timeSlot"));
 
         var day = dayDistributor(courses.length);
+        console.log(day);
 
 
 
         for (let i = 0; i < day.length; i++) {
             var today = new Date();
             //date.setDate(date.getDate() + day[i]);
-            var dd = today.getDate() + day[i];
+            var dd = today.getDate() + day[i] + 1;
             var mm = today.getMonth() + 1;
             var yyyy = today.getFullYear();
 
