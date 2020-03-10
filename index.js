@@ -31,6 +31,9 @@ const tf = require('@tensorflow/tfjs');
 
 
 
+// CRON Task Schedule
+const cron = require("node-cron");
+
 
 const app = express();
 
@@ -215,6 +218,107 @@ app.get('/getReminders', (req, res) => {
         res.send(o);
     });
 });
+
+app.get('/setStudyPlanner', (req, res) => {
+    function sortByProperty(property) {
+        return function (a, b) {
+            if (a[property] > b[property])
+                return 1;
+            else if (a[property] < b[property])
+                return -1;
+
+            return 0;
+        }
+    }
+
+    // Study Planner Function
+    function dayDistributor(CoursesLen) {
+        let day = []
+        let di = 1;
+        for (let i = 0; i < CoursesLen; i++) {
+            day[i] = di;
+            if (di === 6) {
+                di = 1;
+            } else {
+                di += 1;
+            }
+        }
+        return day;
+    }
+
+    // TimeSlot decoder
+    function timeSlotDecoder(timeSlot) {
+        timeSlot = parseInt(timeSlot);
+        if (timeSlot === 1) {
+            return '12:00 PM';
+        } else if (timeSlot === 2) {
+            return '02:00 PM';
+        } else if (timeSlot === 3) {
+            return '04:00 PM';
+        } else if (timeSlot === 4) {
+            return '06:00 PM';
+        } else if (timeSlot === 5) {
+            return '08:00 PM';
+        } else if (timeSlot === 6) {
+            return '10:00 PM';
+        } else if (timeSlot === 7) {
+            return '12:00 AM';
+        } else if (timeSlot === 8) {
+            return '02:00 AM';
+        } else if (timeSlot === 9) {
+            return '04:00 AM';
+        } else if (timeSlot === 10) {
+            return '06:00 AM';
+        } else if (timeSlot === 11) {
+            return '08:00 AM';
+        } else if (timeSlot === 12) {
+            return '10:00 AM';
+        }
+    }
+    let courses;
+
+    var studyPlannedWeek = [];
+    getFromDB(db.collection('courses')).then(o => {
+        courses = o;
+        courses = Object.keys(courses).map(function (key) {
+            return courses[key];
+        }).sort(sortByProperty("timeSlot"));
+
+        var day = dayDistributor(courses.length);
+
+
+
+        for (let i = 0; i < day.length; i++) {
+            var today = new Date();
+            //date.setDate(date.getDate() + day[i]);
+            var dd = today.getDate() + day[i];
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            let date = mm + '/' + dd + '/' + yyyy + ' ' + timeSlotDecoder(courses[i].timeSlot);
+
+            //console.log(date);
+
+            let study = {
+                title: 'Study ' + courses[i].courseName,
+                desc: 'Study ' + courses[i].courseName + ' for 2 hrs from ' + timeSlotDecoder(courses[i].timeSlot) + ' to ' + timeSlotDecoder(parseInt(courses[i].timeSlot) + 1),
+                type: 'SP',
+                time: date
+            };
+
+            addToDB(db.collection('studyplanner'), study);
+
+            studyPlannedWeek.push(study);
+
+        }
+        res.send(JSON.stringify(studyPlannedWeek));
+    });
+
+});
+
+
+
+
 
 
 
@@ -414,6 +518,107 @@ app.get('/predict', (req, res) => {
 });
 
 
+
+
+// Cron Schedule
+// schedule tasks to be run on the server   
+cron.schedule("25 1 * * *", function () {
+    //console.log("running a task");
+    function sortByProperty(property) {
+        return function (a, b) {
+            if (a[property] > b[property])
+                return 1;
+            else if (a[property] < b[property])
+                return -1;
+
+            return 0;
+        }
+    }
+
+    // Study Planner Function
+    function dayDistributor(CoursesLen) {
+        let day = []
+        let di = 1;
+        for (let i = 0; i < CoursesLen; i++) {
+            day[i] = di;
+            if (di === 6) {
+                di = 1;
+            } else {
+                di += 1;
+            }
+        }
+        return day;
+    }
+
+    // TimeSlot decoder
+    function timeSlotDecoder(timeSlot) {
+        timeSlot = parseInt(timeSlot);
+        if (timeSlot === 1) {
+            return '12:00 PM';
+        } else if (timeSlot === 2) {
+            return '02:00 PM';
+        } else if (timeSlot === 3) {
+            return '04:00 PM';
+        } else if (timeSlot === 4) {
+            return '06:00 PM';
+        } else if (timeSlot === 5) {
+            return '08:00 PM';
+        } else if (timeSlot === 6) {
+            return '10:00 PM';
+        } else if (timeSlot === 7) {
+            return '12:00 AM';
+        } else if (timeSlot === 8) {
+            return '02:00 AM';
+        } else if (timeSlot === 9) {
+            return '04:00 AM';
+        } else if (timeSlot === 10) {
+            return '06:00 AM';
+        } else if (timeSlot === 11) {
+            return '08:00 AM';
+        } else if (timeSlot === 12) {
+            return '10:00 AM';
+        }
+    }
+    let courses;
+
+    //var studyPlannedWeek = [];
+    getFromDB(db.collection('courses')).then(o => {
+        courses = o;
+        courses = Object.keys(courses).map(function (key) {
+            return courses[key];
+        }).sort(sortByProperty("timeSlot"));
+
+        var day = dayDistributor(courses.length);
+
+
+
+        for (let i = 0; i < day.length; i++) {
+            var today = new Date();
+            //date.setDate(date.getDate() + day[i]);
+            var dd = today.getDate() + day[i];
+            var mm = today.getMonth() + 1;
+            var yyyy = today.getFullYear();
+
+            let date = mm + '/' + dd + '/' + yyyy + ' ' + timeSlotDecoder(courses[i].timeSlot);
+
+            //console.log(date);
+
+            let study = {
+                title: 'Study ' + courses[i].courseName,
+                desc: 'Study ' + courses[i].courseName + ' for 2 hrs from ' + timeSlotDecoder(courses[i].timeSlot) + ' to ' + timeSlotDecoder(parseInt(courses[i].timeSlot) + 1),
+                type: 'SP',
+                time: date
+            };
+
+            addToDB(db.collection('studyplanner'), study);
+
+            //studyPlannedWeek.push(study);
+
+        }
+        //res.send(JSON.stringify(studyPlannedWeek));
+    });
+
+});
 
 // // Dialogflow Webhook
 // app.post('/webhook', (req, res) => {
