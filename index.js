@@ -528,7 +528,7 @@ app.post('/webhook', (req, res) => {
 
         let outputDate = td.toLocaleDateString() + " " + tt.toLocaleTimeString();
 
-        let title = req.body.queryResult.outputContexts.parameters.remindertitle.original;
+        let title = req.body.queryResult.parameters.remindertitle;
 
         let desc = "must";
         let time = outputDate;
