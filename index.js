@@ -520,8 +520,8 @@ app.get('/predict', (req, res) => {
 
 app.post('/webhook', (req, res) => {
     if (req.body.queryResult.intent.displayName === "SetReminder") {
-        let date = req.body.queryResult.outputContexts.parameters.date;
-        let timeD = req.body.queryResult.outputContexts.parameters.date - time;
+        let date = req.body.queryResult.parameters.date;
+        let timeD = req.body.queryResult.parameters.date - time;
 
         let outputDate = Date(date).toLocaleDateString() + " " + Date(timeD).toLocaleTimeString();
 
