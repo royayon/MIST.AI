@@ -523,8 +523,8 @@ app.post('/webhook', (req, res) => {
         let date = req.body.queryResult.parameters.date;
         let timeD = req.body.queryResult.parameters.datetime;
 
-        td = new Date(date);
-        tt = new Date(timeD);
+        let td = new Date(date);
+        let tt = new Date(timeD);
         var td_year = td.getFullYear();
         var td_month = td.getMonth() + 1;
         var td_day = td.getDate();
