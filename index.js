@@ -541,6 +541,7 @@ app.post('/webhookDialogflow', (req, res) => {
         addToDB(db.collection('reminders'), reminder);
 
         let textResponse = `Setting up your reminder for ${title} for ${outputDate}`;
+
         res.send(createTextResponse(textResponse));
     }
 
