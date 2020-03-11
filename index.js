@@ -518,67 +518,71 @@ app.get('/predict', (req, res) => {
 });
 
 
-// app.post('/webhookDialogflow', (req, res) => {
-//     if (req.body.queryResult.intent.displayName === "SetReminder") {
-//         let date = req.body.queryResult.outputContexts.parameters.date;
-//         let time = req.body.queryResult.outputContexts.parameters.date - time;
+app.post('/webhook', (req, res) => {
+    if (req.body.queryResult.intent.displayName === "SetReminder") {
+        let date = req.body.queryResult.outputContexts.parameters.date;
+        let time = req.body.queryResult.outputContexts.parameters.date - time;
 
-//         let outputDate = Date(date).toLocaleDateString() + " " + Date(time).toLocaleTimeString();
+        let outputDate = Date(date).toLocaleDateString() + " " + Date(time).toLocaleTimeString();
 
-//         let title = req.body.queryResult.outputContexts.parameters.remindertitle.original;
+        let title = req.body.queryResult.outputContexts.parameters.remindertitle.original;
 
-//         let desc = "must";
-//         let time = outputDate;
-//         let type = "Rem";
+        let desc = "must";
+        let time = outputDate;
+        let type = "Rem";
 
-//         let reminder = {
-//             title,
-//             desc,
-//             time,
-//             type
-//         };
+        let reminder = {
+            title,
+            desc,
+            time,
+            type
+        };
 
-//         addToDB(db.collection('reminders'), reminder);
+        addToDB(db.collection('reminders'), reminder);
 
-//         let textResponse = `Setting up your reminder for ${title} for ${outputDate}`;
+        let textResponse = `Setting up your reminder for ${title} for ${outputDate}`;
 
-//         res.send(createTextResponse(textResponse));
-//     }
+        res.send(createTextResponse(textResponse));
+    } else {
+        let textResponse = `Sorry!`;
 
-//     function createTextResponse(textResponse) {
-//         let response = {
-//             "fulfillmentText": "This is a text response",
-//             "fulfillmentMessages": [{
-//                 "text": {
-//                     "text": [
-//                         textResponse
-//                     ]
-//                 }
-//             }],
-//             "source": "example.com",
-//             "payload": {
-//                 "google": {
-//                     "expectUserResponse": true,
-//                     "richResponse": {
-//                         "items": [{
-//                             "simpleResponse": {
-//                                 "textToSpeech": "this is a simple response"
-//                             }
-//                         }]
-//                     }
-//                 },
-//                 "facebook": {
-//                     "text": "Hello, Facebook!"
-//                 },
-//                 "slack": {
-//                     "text": "This is a text response for Slack."
-//                 }
-//             }
-//         }
-//         return response;
-//     }
+        res.send(createTextResponse(textResponse));
+    }
 
-// });
+    function createTextResponse(textResponse) {
+        let response = {
+            "fulfillmentText": "This is a text response",
+            "fulfillmentMessages": [{
+                "text": {
+                    "text": [
+                        textResponse
+                    ]
+                }
+            }],
+            "source": "example.com",
+            "payload": {
+                "google": {
+                    "expectUserResponse": true,
+                    "richResponse": {
+                        "items": [{
+                            "simpleResponse": {
+                                "textToSpeech": "this is a simple response"
+                            }
+                        }]
+                    }
+                },
+                "facebook": {
+                    "text": "Hello, Facebook!"
+                },
+                "slack": {
+                    "text": "This is a text response for Slack."
+                }
+            }
+        }
+        return response;
+    }
+
+});
 
 
 
