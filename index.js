@@ -557,7 +557,7 @@ app.post('/webhook', (req, res) => {
 
     function createTextResponse(textResponse) {
         let response = {
-            "fulfillmentText": "This is a text response",
+            "fulfillmentText": textResponse,
             "fulfillmentMessages": [{
                 "text": {
                     "text": [
