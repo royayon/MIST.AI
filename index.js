@@ -525,8 +525,11 @@ app.post('/webhook', (req, res) => {
 
         td = new Date(date);
         tt = new Date(timeD);
+        var td_year = td.getFullYear();
+        var td_month = td.getMonth() + 1;
+        var td_day = td.getDate();
 
-        let outputDate = td.toLocaleDateString() + " " + tt.toLocaleTimeString();
+        let outputDate = `${td_month}/${td_day}/${td_year} ${formatAMPM(tt)}`;
 
         let title = req.body.queryResult.parameters.remindertitle;
 
@@ -585,6 +588,16 @@ app.post('/webhook', (req, res) => {
         return response;
     }
 
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
 });
 
 
