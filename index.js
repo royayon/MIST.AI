@@ -518,6 +518,32 @@ app.get('/predict', (req, res) => {
 });
 
 
+app.post('/webhookDialogflow', (req, res) => {
+    if (req.body.queryResult.intent.displayName === "SetReminder") {
+        let date = req.body.queryResult.outputContexts.parameters.date;
+        let time = req.body.queryResult.outputContexts.parameters.date - time;
+
+        let outputDate = Date(date).toLocaleDateString() + " " + Date(time).toLocaleTimeString();
+
+        let title = req.body.queryResult.outputContexts.parameters.remindertitle.original;
+
+        let desc = "must";
+        let time = outputDate;
+        let type = "Rem";
+
+        let reminder = {
+            title,
+            desc,
+            time,
+            type
+        };
+
+        addToDB(db.collection('reminders'), reminder);
+
+    }
+
+});
+
 
 
 // Cron Schedule
