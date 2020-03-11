@@ -523,7 +523,10 @@ app.post('/webhook', (req, res) => {
         let date = req.body.queryResult.parameters.date;
         let timeD = req.body.queryResult.parameters.datetime;
 
-        let outputDate = Date(date).toLocaleDateString() + " " + Date(timeD).toLocaleTimeString();
+        td = new Date(date);
+        tt = new Date(timeD);
+
+        let outputDate = td.toLocaleDateString() + " " + tt.toLocaleTimeString();
 
         let title = req.body.queryResult.outputContexts.parameters.remindertitle.original;
 
