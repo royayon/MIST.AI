@@ -524,10 +524,10 @@ app.get('/predict', (req, res) => {
 
 app.post('/webhook', (req, res) => {
     if (req.body.queryResult.intent.displayName === "SetReminder") {
-        let date = req.body.queryResult.parameters.date;
-        let timeD = req.body.queryResult.parameters.datetime;
+        let dateD = req.body.queryResult.parameters.datetime_date;
+        let timeD = req.body.queryResult.parameters.datetime_time.date_time;
 
-        let td = new Date(date);
+        let td = new Date(dateD);
         let tt = new Date(timeD);
         var td_year = td.getFullYear();
         var td_month = td.getMonth() + 1;
