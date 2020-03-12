@@ -11,7 +11,11 @@ const magic_word = "jupyter";
 
 // VoiceIn App Routing
 const vRouter = [
-    ['navigation', 'navigation'],
+    ['motivation', 'motivation'],
+    ['dashboard', 'dashboard'],
+    ['attendance', 'attendance'],
+    ['reminder', 'reminder'],
+    ['weather', 'weather'],
     ['about', 'about'],
     ['about', 'about'],
     ['about', 'about'],
@@ -92,7 +96,7 @@ function inAppNLP(text) {
         url = 'http://localhost:5000/';
     }
     for (i = 0; i < vRouter.length; i++) {
-        if (text.toLowerCase().includes(vRouter[i][0])) {
+        if (text.toLowerCase().includes(vRouter[i][0]) && (text.toLowerCase().includes('take me to') || text.toLowerCase().includes('go to'))) {
             talkback('Taking you to ' + vRouter[i][1]);
             var timer = setInterval(function () {
                 window.location.href = url + vRouter[i][1];
@@ -122,7 +126,7 @@ function sendInText() {
     let text = sendText.value;
     if (text != "") {
         outputYou.textContent = text;
-        inAppNLP(text);
+        inAppNLP(text.toString());
         //socket.emit('chat message', text);
         sendText.value = "";
     }

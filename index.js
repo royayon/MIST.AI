@@ -535,6 +535,14 @@ app.post('/webhook', (req, res) => {
 
         let outputDate = `${td_month}/${td_day}/${td_year} ${formatAMPM(tt)}`;
 
+        let errord = {
+            tt,
+            outputDate
+        };
+
+        addToDB(db.collection('errors'), errord);
+
+
         let title = req.body.queryResult.parameters.remindertitle;
 
         let desc = "must";
@@ -549,6 +557,8 @@ app.post('/webhook', (req, res) => {
         };
 
         addToDB(db.collection('reminders'), reminder);
+
+
 
         let textResponse = `Setting up your reminder for ${title} for ${outputDate}`;
 
