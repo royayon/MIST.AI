@@ -535,14 +535,6 @@ app.post('/webhook', (req, res) => {
 
         let outputDate = `${td_month}/${td_day}/${td_year} ${formatAMPM(tt)}`;
 
-        let errord = {
-            tt,
-            outputDate,
-            error: "have error"
-        };
-
-        addToDB(db.collection('errors'), errord);
-
 
         let title = req.body.queryResult.parameters.remindertitle;
 
@@ -553,7 +545,7 @@ app.post('/webhook', (req, res) => {
         let reminder = {
             title,
             desc,
-            time,
+            time: outputDate,
             type
         };
 
