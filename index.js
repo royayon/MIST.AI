@@ -535,6 +535,9 @@ app.post('/webhook', (req, res) => {
 
         let outputDate = `${td_month}/${td_day}/${td_year} ${formatAMPM(tt)}`;
 
+        console.log(tt);
+        console.log(formatAMPM(tt));
+
 
         let title = req.body.queryResult.parameters.remindertitle;
 
