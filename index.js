@@ -537,7 +537,8 @@ app.post('/webhook', (req, res) => {
 
         let errord = {
             tt,
-            outputDate
+            outputDate,
+            error: "have error"
         };
 
         addToDB(db.collection('errors'), errord);
