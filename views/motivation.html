@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>emoji</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link href="https://fonts.googleapis.com/css?family=Baloo+2&display=swap" rel="stylesheet">
+  <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+  <style>
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    body {
+      margin: 0px;
+      padding: 0px;
+      background-color: #00796b;
+    }
+
+    .container {
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      justify-content: center;
+    }
+
+    h1 {
+      font-family: 'Baloo 2', cursive;
+      font-size: 60px;
+      margin-top: 5px;
+    }
+
+    p {
+      font-family: 'Baloo 2';
+      font-size: 40px;
+      margin-top: 30px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 align="center">MOTIVATION</h1><br><br>
+
+    <center>
+
+      <button type="button" class="btn btn-success" id="motivation" align="center">Motivation</button>
+
+      <button type="button" class="btn btn-success" id="inspiration" align="center">Inspiration</button>
+
+      <button type="button" class="btn btn-success" id="love" align="center">Love</button>
+
+      <button type="button" class="btn btn-success" id="wisdom" align="center">Wisdom</button>
+
+      <button type="button" class="btn btn-success" id="life" align="center">Life</button>
+
+      <button type="button" class="btn btn-success" id="time" align="center">Time</button>
+
+      <button type="button" class="btn btn-success" id="greatness" align="center">Greatness</button>
+
+
+      <p></p><br>
+
+    </center>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+  <script>
+    quoteW8Tag("life", "#life");
+    quoteW8Tag("wisdom", "#wisdom");
+    quoteW8Tag("inspiration", "#inspiration");
+
+    quoteW8Tag("motivation", "#motivation");
+
+    quoteW8Tag("greatness", "#greatness");
+
+    quoteW8Tag("love", "#love");
+
+    quoteW8Tag("time", "#time");
+
+
+    function quoteW8Tag(tag, btnID) {
+      $(document).ready(function () {
+        $(btnID).click(function () {
+          const a =
+            "https://api.paperquotes.com/apiv1/quotes/?tags=" +
+            tag +
+            "&random=" +
+            Math.floor(Math.random() * 20000000 + 1).toString() +
+            "&order=?";
+          // const a = 'https://api.paperquotes.com/apiv1/tags';
+          $.ajax({
+            type: "GET",
+            url: a,
+            beforeSend: function (xhr) {
+              xhr.setRequestHeader(
+                "Authorization",
+                "Token 4529d99dd2a989c59affcf27959b0a4213512e89 "
+              );
+            },
+            success: function (result) {
+
+              $('p').html('"' + result.results[0].quote + "\"<br/>- " + result.results[0].author);
+              console.log(result.results);
+              console.log(result.results);
+            },
+            error: function (result) {
+              //handle the error
+            }
+          });
+        });
+      });
+    }
+  </script>
+
+
+</body>
+
+</html>

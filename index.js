@@ -203,6 +203,10 @@ app.get('/attendance', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/attendance.html'));
 });
 
+app.get('/motivation', (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/motivation.html'));
+});
+
 app.get('/getCourses', (req, res) => {
     //Get JSON
     let obj = getFromDB(db.collection('courses')).then(o => {
