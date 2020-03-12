@@ -535,7 +535,7 @@ app.post('/webhook', (req, res) => {
 
         let outputDate = `${td_month}/${td_day}/${td_year} ${formatAMPM(tt)}`;
 
-        console.log(tt);
+        console.log(req.body);
         console.log(formatAMPM(tt));
 
 
