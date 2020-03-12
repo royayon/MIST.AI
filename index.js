@@ -527,16 +527,16 @@ app.post('/webhook', (req, res) => {
         let dateD = req.body.queryResult.parameters.datetime_date;
         let timeD = req.body.queryResult.parameters.datetime_time;
 
-        let td = new Date(dateD);
-        let tt = new Date(timeD);
+        let td = dateD;
+        let tt = timeD;
         var td_year = td.getFullYear();
         var td_month = td.getMonth() + 1;
         var td_day = td.getDate();
 
-        let outputDate = `${td_month}/${td_day}/${td_year} ${formatAMPM(tt)}`;
+        let outputDate = `${td_month}/${td_day}/${td_year} ${tConvert(tt)}`;
 
         console.log(req.body);
-        console.log(formatAMPM(tt));
+        console.log(tConvert(tt));
 
 
         let title = req.body.queryResult.parameters.remindertitle;
@@ -556,7 +556,7 @@ app.post('/webhook', (req, res) => {
 
 
 
-        let textResponse = `Setting up your reminder for ${title} for ${outputDate}`;
+        let textResponse = `Setting up your reminder for ${title} for ${td_day}/${td_month}/${td_year} at ${tConvert(tt)}`;
 
         res.send(createTextResponse(textResponse));
     } else {
@@ -596,6 +596,18 @@ app.post('/webhook', (req, res) => {
             }
         }
         return response;
+    }
+
+    function tConvert(time) {
+        // Check correct time format and split into components
+        time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+        if (time.length > 1) { // If time format correct
+            time = time.slice(1); // Remove full string match value
+            time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+            time[0] = +time[0] % 12 || 12; // Adjust hours
+        }
+        return time.join(''); // return adjusted time or original string
     }
 
     function formatAMPM(date) {
