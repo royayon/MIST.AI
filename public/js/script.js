@@ -16,7 +16,7 @@ const vRouter = [
     ['attendance', 'attendance'],
     ['reminder', 'reminder'],
     ['weather', 'weather'],
-    ['about', 'about'],
+    ['study planner', 'studyplanner'],
     ['about', 'about'],
     ['about', 'about'],
     ['about', 'about'],

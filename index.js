@@ -207,6 +207,10 @@ app.get('/motivation', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/motivation.html'));
 });
 
+app.get('/studyPlanner', (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/studyPlanner.html'));
+});
+
 app.get('/getCourses', (req, res) => {
     //Get JSON
     let obj = getFromDB(db.collection('courses')).then(o => {
@@ -222,6 +226,16 @@ app.get('/getReminders', (req, res) => {
         res.send(o);
     });
 });
+
+app.get('/getStudyPlans', (req, res) => {
+    //Get JSON
+    let obj = getFromDB(db.collection('studyplanner')).then(o => {
+        //console.log(o);
+        res.send(o);
+    });
+});
+
+
 
 app.get('/setStudyPlanner', (req, res) => {
     function sortByProperty(property) {
@@ -279,6 +293,7 @@ app.get('/setStudyPlanner', (req, res) => {
             return '10:00 AM';
         }
     }
+
     let courses;
 
     var studyPlannedWeek = [];
@@ -290,22 +305,52 @@ app.get('/setStudyPlanner', (req, res) => {
 
         var day = dayDistributor(courses.length);
 
+        let dayTimeTracker = [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+        ];
 
-
-        for (let i = 0; i < day.length; i++) {
+        for (let i = 0; i < courses.length; i++) {
             var today = new Date();
             //date.setDate(date.getDate() + day[i]);
             var dd = today.getDate() + day[i] + 1; // +1 because Heroku in in america
             var mm = today.getMonth() + 1;
             var yyyy = today.getFullYear();
 
-            let date = mm + '/' + dd + '/' + yyyy + ' ' + timeSlotDecoder(courses[i].timeSlot);
+
+            let timeSlot;
+
+            if (!dayTimeTracker[day[i]].includes(courses[i].timeSlot)) {
+                timeSlot = courses[i].timeSlot;
+            } else {
+                let minDistFrmOriginal = 20;
+                for (let dayT = 3; dayT <= 7; dayT++) {
+                    dayT = dayT.toString();
+                    if (!dayTimeTracker[day[i]].includes(dayT)) {
+                        if (minDistFrmOriginal > Math.abs(parseInt(dayT) - parseInt(courses[i].timeSlot))) {
+                            minDistFrmOriginal = Math.abs(parseInt(dayT) - parseInt(courses[i].timeSlot));
+                            timeSlot = dayT;
+                        }
+                    }
+                }
+            }
+
+            let date = mm + '/' + dd + '/' + yyyy + ' ' + timeSlotDecoder(timeSlot);
+
+            dayTimeTracker[day[i]].push(timeSlot);
+
+
 
             //console.log(date);
 
             let study = {
                 title: 'Study ' + courses[i].courseName,
-                desc: 'Study ' + courses[i].courseName + ' for 2 hrs from ' + timeSlotDecoder(courses[i].timeSlot) + ' to ' + timeSlotDecoder(parseInt(courses[i].timeSlot) + 1),
+                desc: 'Study ' + courses[i].courseName + ' for 2 hrs from ' + timeSlotDecoder(timeSlot) + ' to ' + timeSlotDecoder(parseInt(timeSlot) + 1),
                 type: 'SP',
                 time: date
             };
@@ -337,7 +382,8 @@ app.post('/setReminder', (req, res) => {
     let reminder = {
         title,
         desc,
-        time
+        time,
+        type: "Rem"
     };
 
     addToDB(db.collection('reminders'), reminder);
