@@ -604,14 +604,14 @@ app.post('/webhook', (req, res) => {
         res.send(createTextResponse(textResponse));
 
     } else if (req.body.queryResult.intent.displayName === "GetCoursesName") {
-        let textResponse = "Your current enrolled Courses are:\\n";
+        let textResponse = "Your current enrolled Courses are:\r\n";
         // let courses;
         let obj = getFromDB(db.collection('courses')).then(o => {
             //console.log(o);
             // res.send(o);
             courses = o;
             for (let i = 0; i < o.length; i++) {
-                textResponse += " (" + (i + 1) + ")" + o[i].courseName + "\\n";
+                textResponse += " (" + (i + 1) + ")" + o[i].courseName + "\r\n";
             }
 
             res.send(createTextResponse(textResponse));
