@@ -611,7 +611,7 @@ app.post('/webhook', (req, res) => {
             // res.send(o);
             courses = o;
         });
-        for (let i = 0; i < courses.length; i++) {
+        for (let i = 0; i < courses.length(); i++) {
             textResponse += courses[i].courseName + "\n";
         }
 
