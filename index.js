@@ -602,6 +602,22 @@ app.post('/webhook', (req, res) => {
         let textResponse = `Setting up your reminder for ${title} for ${td_day}/${td_month}/${td_year} at ${tConvert(tt)}`;
 
         res.send(createTextResponse(textResponse));
+
+    } else if (req.body.queryResult.intent.displayName === "GetCoursesName") {
+        let textResponse = "Your current enrolled Courses are:\n";
+        let courses;
+        let obj = getFromDB(db.collection('courses')).then(o => {
+            //console.log(o);
+            // res.send(o);
+            courses = o;
+        });
+        for (let i = 0; i < courses.length; i++) {
+            textResponse += courses[i].courseName + "\n";
+        }
+
+        res.send(createTextResponse(textResponse));
+
+
     } else {
         let textResponse = `Sorry!`;
 
