@@ -605,17 +605,18 @@ app.post('/webhook', (req, res) => {
 
     } else if (req.body.queryResult.intent.displayName === "GetCoursesName") {
         let textResponse = "Your current enrolled Courses are:\n";
-        let courses;
+        // let courses;
         let obj = getFromDB(db.collection('courses')).then(o => {
             //console.log(o);
             // res.send(o);
             courses = o;
-        });
-        for (let i = 0; i < courses.length(); i++) {
-            textResponse += courses[i].courseName + "\n";
-        }
+            for (let i = 0; i < o.length; i++) {
+                textResponse += o[i].courseName + "\n";
+            }
 
-        res.send(createTextResponse(textResponse));
+            res.send(createTextResponse(textResponse));
+        });
+
 
 
     } else {
