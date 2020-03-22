@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge" />
   <title>MIST.AI</title>
 
-  <link rel="icon" href="img/mistAI.png">
+  <link rel="icon" href="img/mistAI.png" />
 
   <!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" /> -->
   <link rel="stylesheet" type="text/css" href="slick/slick.css" />
@@ -22,23 +22,15 @@
     <center>
       <h1 style="display: inline;margin-left:50px">MIST.AI</h1>
 
-      <a href="/dashboard" style="float: right;"><img src="img/menu_icon2.png" style="width: 50px;height: 50px;"></a>
+      <a href="/dashboard" style="float: right;"><img src="img/menu_icon2.png" style="width: 50px;height: 50px;" /></a>
     </center>
     <h2>An AI for the Students, By the Students.</h2>
 
     <div class="todaysReminders">
-      <div>
+      <!-- <div>
         <span>Study Concrete Mathematics</span>
         <span style="font-style: italic;font-size: 15px;float:right;font-weight: bold;">@10:30AM</span>
-      </div>
-      <div>
-        <span>Study AI</span>
-        <span style="font-style: italic;font-size: 15px;float:right;font-weight: bold;">@10:30AM</span>
-      </div>
-      <div>
-        <span>Study OS</span>
-        <span style="font-style: italic;font-size: 15px;float:right;font-weight: bold;">@10:30AM</span>
-      </div>
+      </div> -->
     </div>
 
     <button class="microbtn"><i class="fa fa-microphone"></i></button>
@@ -71,43 +63,140 @@
 
   <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 
+  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+
   <script>
-    $(document).ready(function () {
-      $('.todaysReminders').slick({
-        dots: false,
-        infinite: false,
-        speed: 300,
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        responsive: [{
-            breakpoint: 1024,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1,
-              infinite: true,
-              dots: true
-            }
-          },
-          {
-            breakpoint: 600,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 2
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1
-            }
+    $(".todaysReminders").not('.slick-initialized').slick({
+      dots: false,
+      infinite: false,
+      speed: 300,
+      slidesToShow: 2,
+      slidesToScroll: 1,
+      responsive: [{
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true,
+            dots: true
           }
-          // You can unslick at a given breakpoint now by adding:
-          // settings: "unslick"
-          // instead of a settings object
-        ]
-      });
+        },
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+        // You can unslick at a given breakpoint now by adding:
+        // settings: "unslick"
+        // instead of a settings object
+      ]
     });
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyC00dVBAh_8RbWixr-LI-lkKbRnqR53-_c",
+      authDomain: "mist-ai-lnnjgm.firebaseapp.com",
+      databaseURL: "https://mist-ai-lnnjgm.firebaseio.com",
+      projectId: "mist-ai-lnnjgm",
+      storageBucket: "mist-ai-lnnjgm.appspot.com",
+      messagingSenderId: "613246362840",
+      appId: "1:613246362840:web:8be8cfdf962336a18063ad"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    var db = firebase.firestore();
+
+    // db.collection("reminders").onSnapshot(function (snapshot) {
+    //   snapshot.docChanges().forEach(function (change) {
+    //     if (change.type === "added") {
+    //       renderTodaysTasks();
+    //     }
+    //     if (change.type === "modified") {
+    //       renderTodaysTasks();
+    //     }
+    //     if (change.type === "removed") {
+    //       renderTodaysTasks();
+    //       // console.log("Removed city: ", change.doc.data());
+    //     }
+    //   });
+    // });
+    db.collection("reminders")
+      .onSnapshot({
+        // Listen for document metadata changes
+        includeMetadataChanges: true
+      }, function (doc) {
+        renderTodaysTasks();
+      });
+    db.collection("studyplanner")
+      .onSnapshot({
+        // Listen for document metadata changes
+        includeMetadataChanges: true
+      }, function (doc) {
+        renderTodaysTasks();
+      });
+
+
+    function renderTodaysTasks() {
+      fetch('/getTodaysTasks').then(response => response.json()).then(tasks => {
+        //$(".todaysReminders").empty();
+        $('.todaysReminders').slick('slickRemove', null, null, true);
+        for (let i = 0; i < tasks.length; i++) {
+          var xc = i + 1;
+          appendTodaysTasks(tasks[i].title, formatAMPM(new Date(tasks[i].time)), xc);
+          if (tasks[i].type === 'Rem') {
+            setAlarm(new Date(tasks[i].time), tasks[i].title, tasks[i].id, xc);
+          }
+        }
+      });
+
+      function appendTodaysTasks(title, time, xc) {
+        // $(".todaysReminders").append(
+        $('.todaysReminders').slick('slickAdd',
+          '<div class="task' + xc +
+          '"> <span style="font-size: 12px;">' + title +
+          '</span> <span style = "font-style: italic;font-size: 15px;float:right;font-weight: bold;"> @' + time +
+          ' </span ></div>'
+        );
+      }
+
+      function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        if (isNaN(minutes)) {
+          minutes = 0;
+        }
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+      }
+    }
+
+    function setAlarm(targetDate, alarmTitle, id, xc) {
+      if (targetDate.getTime() <= new Date().getTime()) {
+        var reply = "It's time for " + alarmTitle;
+        talkback(reply);
+        $.post('/deleteReminder', {
+            "id": id
+          },
+          'json');
+        return;
+      }
+
+      window.setTimeout(arguments.callee, 1000, targetDate, alarmTitle, id, xc); // tick every second
+    }
+
 
 
     function detectMob() {
@@ -121,7 +210,7 @@
         /Windows Phone/i
       ];
 
-      return toMatch.some((toMatchItem) => {
+      return toMatch.some(toMatchItem => {
         return navigator.userAgent.match(toMatchItem);
       });
     }

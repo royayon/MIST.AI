@@ -242,26 +242,48 @@ app.get('/getTodaysTasks', (req, res) => {
     let today = new Date();
     let tomorrow = new Date();
     tomorrow.setDate(new Date().getDate() + 1);
-    td = today.toLocaleDateString();
     tmrw = tomorrow.toLocaleDateString();
 
-    // let obj = getFromDB(db.collection('studyplanner').where('time', '>=', today.toLocaleDateString()).where('time', '<', tomorrow.toLocaleDateString())).then(o => {
-    //     //console.log(o);
-    //     tasks.push(o);
-    //     let obj1 = getFromDB(db.collection('reminders').where('time', '>=', today.toLocaleDateString()).where('time', '<', tomorrow.toLocaleDateString())).then(o1 => {
-    //         //console.log(o);
-    //         tasks.push(o1);
+    td = today.getDate();
+    tm = today.getMonth() + 1;
+    ty = today.getFullYear();
 
-    //         res.send(tasks);
-    //     });
-    // });
-    let obj1 = getFromDB(db.collection('reminders').where('time', '<', td).where('time', '>', tmrw)).then(oo => {
+    let obj = getFromDB(db.collection('studyplanner')).then(o => {
         //console.log(o);
-        tasks.push(oo);
-        console.log(oo);
+        tasks.push(o);
+        let obj1 = getFromDB(db.collection('reminders')).then(o1 => {
+            //console.log(o);
+            tasks.push(o1);
 
-        res.send(tasks);
+            let todaysTasks = [];
+            for (let t = 0; t < tasks.length; t++) {
+                for (let tt = 0; tt < tasks[t].length; tt++) {
+                    let time = new Date(tasks[t][tt].time);
+                    if ((td == time.getDate()) && (tm == time.getMonth() + 1) && (ty == time.getFullYear())) {
+
+                        todaysTasks.push(tasks[t][tt]);
+                    }
+                }
+            }
+            todaysTasks = todaysTasks.sort(sortByProperty('time'));
+            // console.log(todaysTasks);
+            res.send(todaysTasks);
+        });
     });
+
+    function sortByProperty(property) {
+        return function (a, b) {
+            let ta = new Date(a[property]);
+            let tb = new Date(b[property]);
+            if (ta.getTime() > tb.getTime())
+                return 1;
+            else if (ta.getTime() < tb.getTime())
+                return -1;
+
+            return 0;
+        }
+    }
+
 });
 
 
@@ -727,91 +749,6 @@ app.post('/webhook', (req, res) => {
 //             return 0;
 //         }
 //     }
-
-//     // Study Planner Function
-//     function dayDistributor(CoursesLen) {
-//         let day = []
-//         let di = 1;
-//         for (let i = 0; i < CoursesLen; i++) {
-//             day[i] = di;
-//             if (di === 6) {
-//                 di = 1;
-//             } else {
-//                 di += 1;
-//             }
-//         }
-//         return day;
-//     }
-
-//     // TimeSlot decoder
-//     function timeSlotDecoder(timeSlot) {
-//         timeSlot = parseInt(timeSlot);
-//         if (timeSlot === 1) {
-//             return '12:00 PM';
-//         } else if (timeSlot === 2) {
-//             return '02:00 PM';
-//         } else if (timeSlot === 3) {
-//             return '04:00 PM';
-//         } else if (timeSlot === 4) {
-//             return '06:00 PM';
-//         } else if (timeSlot === 5) {
-//             return '08:00 PM';
-//         } else if (timeSlot === 6) {
-//             return '10:00 PM';
-//         } else if (timeSlot === 7) {
-//             return '12:00 AM';
-//         } else if (timeSlot === 8) {
-//             return '02:00 AM';
-//         } else if (timeSlot === 9) {
-//             return '04:00 AM';
-//         } else if (timeSlot === 10) {
-//             return '06:00 AM';
-//         } else if (timeSlot === 11) {
-//             return '08:00 AM';
-//         } else if (timeSlot === 12) {
-//             return '10:00 AM';
-//         }
-//     }
-//     let courses;
-
-//     //var studyPlannedWeek = [];
-//     getFromDB(db.collection('courses')).then(o => {
-//         courses = o;
-//         courses = Object.keys(courses).map(function (key) {
-//             return courses[key];
-//         }).sort(sortByProperty("timeSlot"));
-
-//         var day = dayDistributor(courses.length);
-
-
-
-//         for (let i = 0; i < day.length; i++) {
-//             var today = new Date();
-//             //date.setDate(date.getDate() + day[i]);
-//             var dd = today.getDate() + day[i];
-//             var mm = today.getMonth() + 1;
-//             var yyyy = today.getFullYear();
-
-//             let date = mm + '/' + dd + '/' + yyyy + ' ' + timeSlotDecoder(courses[i].timeSlot);
-
-//             //console.log(date);
-
-//             let study = {
-//                 title: 'Study ' + courses[i].courseName,
-//                 desc: 'Study ' + courses[i].courseName + ' for 2 hrs from ' + timeSlotDecoder(courses[i].timeSlot) + ' to ' + timeSlotDecoder(parseInt(courses[i].timeSlot) + 1),
-//                 type: 'SP',
-//                 time: date
-//             };
-
-//             addToDB(db.collection('studyplanner'), study);
-
-//             //studyPlannedWeek.push(study);
-
-//         }
-//         //res.send(JSON.stringify(studyPlannedWeek));
-//     });
-
-// });
 
 // // Dialogflow Webhook
 // app.post('/webhook', (req, res) => {
