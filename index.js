@@ -43,6 +43,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+
 // Handlebars Middleware
 // app.engine('handlebars', exphbs({
 //     defaultLayout: 'index'
@@ -232,6 +233,34 @@ app.get('/getStudyPlans', (req, res) => {
     let obj = getFromDB(db.collection('studyplanner')).then(o => {
         //console.log(o);
         res.send(o);
+    });
+});
+
+app.get('/getTodaysTasks', (req, res) => {
+    //Get JSON
+    let tasks = [];
+    let today = new Date();
+    let tomorrow = new Date();
+    tomorrow.setDate(new Date().getDate() + 1);
+    td = today.toLocaleDateString();
+    tmrw = tomorrow.toLocaleDateString();
+
+    // let obj = getFromDB(db.collection('studyplanner').where('time', '>=', today.toLocaleDateString()).where('time', '<', tomorrow.toLocaleDateString())).then(o => {
+    //     //console.log(o);
+    //     tasks.push(o);
+    //     let obj1 = getFromDB(db.collection('reminders').where('time', '>=', today.toLocaleDateString()).where('time', '<', tomorrow.toLocaleDateString())).then(o1 => {
+    //         //console.log(o);
+    //         tasks.push(o1);
+
+    //         res.send(tasks);
+    //     });
+    // });
+    let obj1 = getFromDB(db.collection('reminders').where('time', '<', td).where('time', '>', tmrw)).then(oo => {
+        //console.log(o);
+        tasks.push(oo);
+        console.log(oo);
+
+        res.send(tasks);
     });
 });
 
@@ -616,9 +645,6 @@ app.post('/webhook', (req, res) => {
 
             res.send(createTextResponse(textResponse));
         });
-
-
-
     } else {
         let textResponse = `Sorry!`;
 

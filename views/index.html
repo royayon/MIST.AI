@@ -9,6 +9,10 @@
 
   <link rel="icon" href="img/mistAI.png">
 
+  <!-- <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" /> -->
+  <link rel="stylesheet" type="text/css" href="slick/slick.css" />
+  <link rel="stylesheet" type="text/css" href="slick/slick-theme.css" />
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -21,6 +25,21 @@
       <a href="/dashboard" style="float: right;"><img src="img/menu_icon2.png" style="width: 50px;height: 50px;"></a>
     </center>
     <h2>An AI for the Students, By the Students.</h2>
+
+    <div class="todaysReminders">
+      <div>
+        <span>Study Concrete Mathematics</span>
+        <span style="font-style: italic;font-size: 15px;float:right;font-weight: bold;">@10:30AM</span>
+      </div>
+      <div>
+        <span>Study AI</span>
+        <span style="font-style: italic;font-size: 15px;float:right;font-weight: bold;">@10:30AM</span>
+      </div>
+      <div>
+        <span>Study OS</span>
+        <span style="font-style: italic;font-size: 15px;float:right;font-weight: bold;">@10:30AM</span>
+      </div>
+    </div>
 
     <button class="microbtn"><i class="fa fa-microphone"></i></button>
 
@@ -43,9 +62,54 @@
 
   <script src="https://code.responsivevoice.org/responsivevoice.js?key=cqTky6bB"></script>
 
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+
+  <!-- <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script> -->
+
   <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
 
   <script>
+    $(document).ready(function () {
+      $('.todaysReminders').slick({
+        dots: false,
+        infinite: false,
+        speed: 300,
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        responsive: [{
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1,
+              infinite: true,
+              dots: true
+            }
+          },
+          {
+            breakpoint: 600,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 2
+            }
+          },
+          {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+          // You can unslick at a given breakpoint now by adding:
+          // settings: "unslick"
+          // instead of a settings object
+        ]
+      });
+    });
+
+
     function detectMob() {
       const toMatch = [
         /Android/i,

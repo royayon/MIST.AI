@@ -175,6 +175,17 @@ button .fa {
     transform: scale(.92);
 }
 
+/* .todaysReminders div {
+    display: inline-flex;
+    margin-top: 5px;
+    margin-left: 15px;
+    color: white;
+    background: #00B294;
+    font-size: 16px;
+    padding: 8px;
+    border-radius: 30px;
+} */
+
 /* .output-bot+.output-you {
     border-bottom-right-radius: 5px;
 }
