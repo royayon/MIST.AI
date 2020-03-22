@@ -667,6 +667,19 @@ app.post('/webhook', (req, res) => {
 
             res.send(createTextResponse(textResponse));
         });
+    } else if (req.body.queryResult.intent.displayName === "GetAbsents") {
+        let textResponse = "Your Current Absents are:\r\n";
+        // let courses;
+        let obj = getFromDB(db.collection('courses')).then(o => {
+            //console.log(o);
+            // res.send(o);
+            courses = o;
+            for (let i = 0; i < o.length; i++) {
+                textResponse += o[i].absent + "/" + o[i].credit * 14 + "\r\n";
+            }
+
+            res.send(createTextResponse(textResponse));
+        });
     } else {
         let textResponse = `Sorry!`;
 
