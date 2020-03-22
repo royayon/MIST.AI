@@ -675,7 +675,7 @@ app.post('/webhook', (req, res) => {
             // res.send(o);
             courses = o;
             for (let i = 0; i < o.length; i++) {
-                textResponse += o[i].absent + "/" + o[i].credit * 14 + "\r\n";
+                textResponse += o[i].courseName + ": " + o[i].absent + "/" + o[i].credit * 14 + "\r\n";
             }
 
             res.send(createTextResponse(textResponse));
