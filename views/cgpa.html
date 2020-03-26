@@ -363,6 +363,7 @@
       $("#c41").val(result.credit41);
       $("#c42").val(result.credit42);
 
+
     });
 
     $(".btn").on("click", function () {
@@ -408,6 +409,17 @@
       if (Number.isNaN(x8)) {
         x8 = 0.00;
       }
+
+      let predictGPA = 2.00;
+
+      if (g21 == '' && g22 == '' && g31 == '' && g32 == '' && g41 == '' && g42 == '') {
+        tf.loadLayersModel('model/cgpa_model/model21/model.json').then(function (model) {
+          predictGPA = model.predict([
+            [g11, g12]
+          ]);
+        });
+      }
+      console.log(predictGPA)
       //}
     });
 

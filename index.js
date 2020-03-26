@@ -483,16 +483,7 @@ app.post('/setCGPA', (req, res) => {
     let g41 = req.body.g41;
     let g42 = req.body.g42;
 
-    let predictGPA = 2.00;
 
-    if (g21 == '' && g22 == '' && g31 == '' && g32 == '' && g41 == '' && g42 == '') {
-        tf.loadLayersModel('model/cgpa_model/model21/model.json').then(function (model) {
-            predictGPA = model.predict([
-                [g11, g12]
-            ]);
-        });
-    }
-    console.log(predictGPA)
 
 
     let Results = {
