@@ -137,7 +137,7 @@
         <br />
         <center>
           <div class="cur">
-            <h1 class="animated pulse" id="currentCGPA">3.98</h1>
+            <h1 class="animated pulse" id="currentCGPA">:)</h1>
           </div>
         </center>
         <br /><br /><br />
@@ -146,7 +146,7 @@
         <br />
         <center>
           <div class="cur">
-            <h1 class="animated pulse" id="predictedCGPA">3.20</h1>
+            <h1 class="animated pulse" id="predictedCGPA">;)</h1>
           </div>
         </center>
       </div>
@@ -334,7 +334,7 @@
       src="cgpa_js/angular.radialIndicator.js"
     ></script>
     <script type="text/javascript" src="cgpa_js/radialIndicator.js"></script> -->
-
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.5.2/dist/tf.min.js"></script>
   <script type="text/javascript">
     /*function validateForm() {
 		  	var x = document.forms["myForm"]["fname"].value;
@@ -364,18 +364,167 @@
       $("#c41").val(result.credit41);
       $("#c42").val(result.credit42);
 
+      credit11 = parseFloat(result.credit11);
+      credit12 = parseFloat(result.credit12);
+      credit21 = parseFloat(result.credit21);
+      credit22 = parseFloat(result.credit22);
+      credit31 = parseFloat(result.credit31);
+      credit32 = parseFloat(result.credit32);
+      credit41 = parseFloat(result.credit41);
+      credit42 = parseFloat(result.credit42);
+
+      gpa11 = parseFloat(result.gpa11);
+      gpa12 = parseFloat(result.gpa12);
+      gpa21 = parseFloat(result.gpa21);
+      gpa22 = parseFloat(result.gpa22);
+      gpa31 = parseFloat(result.gpa31);
+      gpa32 = parseFloat(result.gpa32);
+      gpa41 = parseFloat(result.gpa41);
+      gpa42 = parseFloat(result.gpa42);
+
+
+
+      let currentCGPA = 2.00;
 
 
       let predictGPA = 2.00;
 
-      if (g21 == '' && g22 == '' && g31 == '' && g32 == '' && g41 == '' && g42 == '') {
+      if (result.gpa21 == '' && result.gpa22 == '' && result.gpa31 == '' && result.gpa32 == '' && result.gpa41 ==
+        '' && result.gpa42 == '') {
         tf.loadLayersModel('model/cgpa_model/model21/model.json').then(function (model) {
-          predictGPA = model.predict([
-            [result.gpa11, result.gpa12]
-          ]);
+          predictGPA = model.predict(
+            tf.tensor([
+              [gpa11, gpa12]
+            ])
+          ).array().then(function (p) {
+            //console.log(p[0][0])
+            predictGPA = p[0][0];
+            if (predictGPA < 2.00) {
+              predictGPA = 2.00;
+            } else if (predictGPA > 4.00) {
+              predictGPA = 4.00;
+            }
+
+            $("#predictedCGPA").text(predictGPA.toFixed(2));
+          });
         });
+        currentCGPA = ((credit11 * gpa11) + (credit12 *
+          gpa12)) / (credit11 +
+            credit12);
       }
-      $("#predictedCGPA").val(predictGPA);
+      else if (result.gpa22 == '' && result.gpa31 == '' && result.gpa32 == '' && result.gpa41 == '' && result
+        .gpa42 == '') {
+        tf.loadLayersModel('model/cgpa_model/model22/model.json').then(function (model) {
+          predictGPA = model.predict(
+            tf.tensor([
+              [gpa11, gpa12, gpa21]
+            ])
+          ).array().then(function (p) {
+            //console.log(p[0][0])
+            predictGPA = p[0][0];
+            if (predictGPA < 2.00) {
+              predictGPA = 2.00;
+            } else if (predictGPA > 4.00) {
+              predictGPA = 4.00;
+            }
+            $("#predictedCGPA").text(predictGPA.toFixed(2));
+          });
+        });
+        currentCGPA = ((credit11 * gpa11) + (credit12 *
+          gpa12) + (credit21 *
+            gpa21)) / (credit11 +
+              credit12 + credit21);
+      }
+      else if (result.gpa31 == '' && result.gpa32 == '' && result.gpa41 == '' && result
+        .gpa42 == '') {
+        tf.loadLayersModel('model/cgpa_model/model31/model.json').then(function (model) {
+          predictGPA = model.predict(
+            tf.tensor([
+              [gpa11, gpa12, gpa21, gpa22]
+            ])
+          ).array().then(function (p) {
+            //console.log(p[0][0])
+            predictGPA = p[0][0];
+            if (predictGPA < 2.00) {
+              predictGPA = 2.00;
+            } else if (predictGPA > 4.00) {
+              predictGPA = 4.00;
+            }
+            $("#predictedCGPA").text(predictGPA.toFixed(2));
+          });
+        });
+        currentCGPA = ((credit11 * gpa11) + (credit12 * gpa12) + (credit21 * gpa21) + (credit22 * gpa22)) / (credit11 +
+          credit12 + credit21 + credit22);
+      }
+      else if (result.gpa32 == '' && result.gpa41 == '' && result
+        .gpa42 == '') {
+        tf.loadLayersModel('model/cgpa_model/model32/model.json').then(function (model) {
+          predictGPA = model.predict(
+            tf.tensor([
+              [gpa11, gpa12, gpa21, gpa22, gpa31]
+            ])
+          ).array().then(function (p) {
+            //console.log(p[0][0])
+            predictGPA = p[0][0];
+            if (predictGPA < 2.00) {
+              predictGPA = 2.00;
+            } else if (predictGPA > 4.00) {
+              predictGPA = 4.00;
+            }
+            $("#predictedCGPA").text(predictGPA.toFixed(2));
+          });
+        });
+        currentCGPA = ((credit11 * gpa11) + (credit12 * gpa12) + (credit21 * gpa21) + (credit22 * gpa22) + (credit31 * gpa31)) / (credit11 +
+          credit12 + credit21 + credit22 + credit31);
+      }
+      else if (result.gpa41 == '' && result
+        .gpa42 == '') {
+        tf.loadLayersModel('model/cgpa_model/model41/model.json').then(function (model) {
+          predictGPA = model.predict(
+            tf.tensor([
+              [gpa11, gpa12, gpa21, gpa22, gpa31, gpa32]
+            ])
+          ).array().then(function (p) {
+            //console.log(p[0][0])
+            predictGPA = p[0][0];
+            if (predictGPA < 2.00) {
+              predictGPA = 2.00;
+            } else if (predictGPA > 4.00) {
+              predictGPA = 4.00;
+            }
+            $("#predictedCGPA").text(predictGPA.toFixed(2));
+          });
+        });
+        currentCGPA = ((credit11 * gpa11) + (credit12 * gpa12) + (credit21 * gpa21) + (credit22 * gpa22) + (credit31 * gpa31) + (credit32 * gpa32)) / (credit11 +
+          credit12 + credit21 + credit22 + credit31 + credit32);
+      }
+      else if (result.gpa42 == '') {
+        tf.loadLayersModel('model/cgpa_model/model42/model.json').then(function (model) {
+          predictGPA = model.predict(
+            tf.tensor([
+              [gpa11, gpa12, gpa21, gpa22, gpa31, gpa32, gpa41]
+            ])
+          ).array().then(function (p) {
+            //console.log(p[0][0])
+            predictGPA = p[0][0];
+            if (predictGPA < 2.00) {
+              predictGPA = 2.00;
+            } else if (predictGPA > 4.00) {
+              predictGPA = 4.00;
+            }
+            $("#predictedCGPA").text(predictGPA.toFixed(2));
+          });
+        });
+        currentCGPA = ((credit11 * gpa11) + (credit12 * gpa12) + (credit21 * gpa21) + (credit22 * gpa22) + (credit31 * gpa31) + (credit32 * gpa32) + (credit41 * gpa41)) / (credit11 +
+          credit12 + credit21 + credit22 + credit31 + credit32 + credit41);
+      } else {
+        currentCGPA = ((credit11 * gpa11) + (credit12 * gpa12) + (credit21 * gpa21) + (credit22 * gpa22) + (credit31 * gpa31) + (credit32 * gpa32) + (credit41 * gpa41) + (credit42 * gpa42)) / (credit11 +
+          credit12 + credit21 + credit22 + credit31 + credit32 + credit41 + credit42);
+        $("#predictedCGPA").text(currentCGPA.toFixed(2));
+      }
+
+
+      $("#currentCGPA").text(currentCGPA.toFixed(2));
 
     });
 
