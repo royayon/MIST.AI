@@ -137,7 +137,7 @@
         <br />
         <center>
           <div class="cur">
-            <h1 class="animated pulse">3.98</h1>
+            <h1 class="animated pulse" id="currentCGPA">3.98</h1>
           </div>
         </center>
         <br /><br /><br />
@@ -146,13 +146,14 @@
         <br />
         <center>
           <div class="cur">
-            <h1 class="animated pulse">3.20</h1>
+            <h1 class="animated pulse" id="predictedCGPA">3.20</h1>
           </div>
         </center>
       </div>
 
       <div class="col02 col-md-6 col-sm-12">
-        <form action="/setCGPA" method="POST" class="form-inline" onsubmit="DoSubmit();">
+        <form action="/setCGPA" method="POST" class="form-inline">
+          <!-- onsubmit="DoSubmit();" -->
           <div class="r2 row">
             <div class="title">
               <h3>Level-01, Term-01</h3>
@@ -419,7 +420,7 @@
           ]);
         });
       }
-      console.log(predictGPA)
+      $("#predictedCGPA").val(predictGPA);
       //}
     });
 
