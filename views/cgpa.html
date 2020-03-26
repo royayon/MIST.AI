@@ -365,6 +365,18 @@
       $("#c42").val(result.credit42);
 
 
+
+      let predictGPA = 2.00;
+
+      if (g21 == '' && g22 == '' && g31 == '' && g32 == '' && g41 == '' && g42 == '') {
+        tf.loadLayersModel('model/cgpa_model/model21/model.json').then(function (model) {
+          predictGPA = model.predict([
+            [result.gpa11, result.gpa12]
+          ]);
+        });
+      }
+      $("#predictedCGPA").val(predictGPA);
+
     });
 
     $(".btn").on("click", function () {
@@ -410,17 +422,6 @@
       if (Number.isNaN(x8)) {
         x8 = 0.00;
       }
-
-      let predictGPA = 2.00;
-
-      if (g21 == '' && g22 == '' && g31 == '' && g32 == '' && g41 == '' && g42 == '') {
-        tf.loadLayersModel('model/cgpa_model/model21/model.json').then(function (model) {
-          predictGPA = model.predict([
-            [g11, g12]
-          ]);
-        });
-      }
-      $("#predictedCGPA").val(predictGPA);
       //}
     });
 
