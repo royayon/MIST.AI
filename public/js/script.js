@@ -17,9 +17,7 @@ const vRouter = [
     ['reminder', 'reminder'],
     ['weather', 'weather'],
     ['study planner', 'studyplanner'],
-    ['about', 'about'],
-    ['about', 'about'],
-    ['about', 'about'],
+    ['cgpa', 'cgpa']
 ];
 
 // Speech Recognition
