@@ -212,6 +212,10 @@ app.get('/studyPlanner', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/studyPlanner.html'));
 });
 
+app.get('/cgpa', (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/cgpa.html'));
+});
+
 app.get('/getCourses', (req, res) => {
     //Get JSON
     let obj = getFromDB(db.collection('courses')).then(o => {
@@ -231,6 +235,14 @@ app.get('/getReminders', (req, res) => {
 app.get('/getStudyPlans', (req, res) => {
     //Get JSON
     let obj = getFromDB(db.collection('studyplanner')).then(o => {
+        //console.log(o);
+        res.send(o);
+    });
+});
+
+app.get('/getCGPA', (req, res) => {
+    //Get JSON
+    let obj = getFromDB(db.collection('results')).then(o => {
         //console.log(o);
         res.send(o);
     });
@@ -449,6 +461,64 @@ app.post('/addCourse', (req, res) => {
     } else {
         res.sendFile(path.join(__dirname + '/views/error.html'));
     }
+
+});
+
+app.post('/setCGPA', (req, res) => {
+    let c11 = req.body.c11;
+    let c12 = req.body.c12;
+    let c21 = req.body.c21;
+    let c22 = req.body.c22;
+    let c31 = req.body.c31;
+    let c32 = req.body.c32;
+    let c41 = req.body.c41;
+    let c42 = req.body.c42;
+
+    let g11 = req.body.g11;
+    let g12 = req.body.g12;
+    let g21 = req.body.g21;
+    let g22 = req.body.g22;
+    let g31 = req.body.g31;
+    let g32 = req.body.g32;
+    let g41 = req.body.g41;
+    let g42 = req.body.g42;
+
+    let predictGPA = 2.00;
+
+    if (g21 == '' && g22 == '' && g31 == '' && g32 == '' && g41 == '' && g42 == '') {
+        tf.loadLayersModel('model/cgpa_model/model21/model.json').then(function (model) {
+            predictGPA = model.predict([
+                [g11, g12]
+            ]);
+        });
+    }
+    console.log(predictGPA)
+
+
+    let Results = {
+        credit11: c11,
+        credit12: c12,
+        credit21: c21,
+        credit22: c22,
+        credit31: c31,
+        credit32: c32,
+        credit41: c41,
+        credit42: c42,
+        gpa11: g11,
+        gpa12: g12,
+        gpa21: g21,
+        gpa22: g22,
+        gpa31: g31,
+        gpa32: g32,
+        gpa41: g41,
+        gpa42: g42,
+    };
+
+    updateDB(db.collection('results').doc('201714018'), Results);
+
+
+    res.redirect("/cgpa");
+    //res.sendFile(path.join(__dirname + '/views/cgpa.html'));
 
 });
 

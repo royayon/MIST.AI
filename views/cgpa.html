@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>CGPA</title>
+  <link rel="icon" href="img/mistAI.png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
+
+  <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=EB+Garamond|Roboto&display=swap" rel="stylesheet" />
+
+  <style type="text/css">
+    * {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    body {
+      margin: 0px;
+      padding: 0px;
+    }
+
+    .container {}
+
+    .col01,
+    .col02 {
+      padding: 0px;
+      width: 100%;
+      height: 100vh;
+      text-align: center;
+    }
+
+    .col01 {
+      background-color: black;
+      color: #00ff00;
+      font-family: "EB Garamond", serif;
+    }
+
+    .col01 h2 {
+      font-size: 30px;
+    }
+
+    .cur {
+      width: 150px;
+      height: 150px;
+      background-color: black;
+      color: #00ff00;
+      border-radius: 100px;
+      border: 2px solid #00ff00;
+
+      display: flex;
+      background-attachment: fixed;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .cur:hover {
+      width: 160px;
+      height: 160px;
+      transition: 0.5s;
+    }
+
+    .cur h1 {
+      animation-delay: 1s;
+      animation-duration: 1s;
+      animation-iteration-count: infinite;
+    }
+
+    .cur h2 {
+      animation-duration: 2s;
+    }
+
+    .col02 {
+      color: white;
+      background-attachment: fixed;
+      overflow-y: scroll;
+    }
+
+    .r2 {
+      width: 100%;
+      height: auto;
+      margin: 0px;
+      border-bottom: 5px solid #00ff00;
+    }
+
+    .title {
+      width: 100%;
+      text-align: center;
+    }
+
+    .title h3 {
+      margin: 0px;
+      margin-top: 10px;
+      margin-bottom: 10px;
+      color: black;
+    }
+
+    input {
+      margin: 0px;
+      padding: 0px;
+      margin-top: 5px;
+      text-align: center;
+    }
+
+    h5 {
+      margin: 0px;
+      color: black;
+    }
+
+    span {
+      margin-top: 15px;
+    }
+
+    .r2 {}
+
+    .fau {
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col01 col-md-6 col-sm-12">
+        <br /><br /><br />
+        <h2 class="animated shake">Current CGPA</h2>
+        <br />
+        <center>
+          <div class="cur">
+            <h1 class="animated pulse">3.98</h1>
+          </div>
+        </center>
+        <br /><br /><br />
+
+        <h2 class="animated shake">Predicted CGPA</h2>
+        <br />
+        <center>
+          <div class="cur">
+            <h1 class="animated pulse">3.20</h1>
+          </div>
+        </center>
+      </div>
+
+      <div class="col02 col-md-6 col-sm-12">
+        <form action="/setCGPA" method="POST" class="form-inline" onsubmit="DoSubmit();">
+          <div class="r2 row">
+            <div class="title">
+              <h3>Level-01, Term-01</h3>
+            </div>
+            <br /><br />
+
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>Credit:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter Credit" id="c11"
+                name="c11" />
+            </div>
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>GPA:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter GPA" id="g11"
+                name="g11" />
+            </div>
+
+            <div class="fau"></div>
+          </div>
+
+          <div class="r2 row">
+            <div class="title">
+              <h3>Level-01, Term-02</h3>
+            </div>
+            <br /><br />
+
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>Credit:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter Credit" id="c12"
+                name="c12" />
+            </div>
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>GPA:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter GPA" id="g12"
+                name="g12" />
+            </div>
+
+            <div class="fau"></div>
+          </div>
+
+          <div class="r2 row">
+            <div class="title">
+              <h3>Level-02, Term-01</h3>
+            </div>
+            <br /><br />
+
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>Credit:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter Credit" id="c21"
+                name="c21" />
+            </div>
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>GPA:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter GPA" id="g21"
+                name="g21" />
+            </div>
+
+            <div class="fau"></div>
+          </div>
+
+          <div class="r2 row">
+            <div class="title">
+              <h3>Level-02, Term-02</h3>
+            </div>
+            <br /><br />
+
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>Credit:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter Credit" id="c22"
+                name="c22" />
+            </div>
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>GPA:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter GPA" id="g22"
+                name="g22" />
+            </div>
+
+            <div class="fau"></div>
+          </div>
+
+          <div class="r2 row">
+            <div class="title">
+              <h3>Level-03, Term-01</h3>
+            </div>
+            <br /><br />
+
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>Credit:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter Credit" id="c31"
+                name="c31" />
+            </div>
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>GPA:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter GPA" id="g31"
+                name="g31" />
+            </div>
+
+            <div class="fau"></div>
+          </div>
+
+          <div class="r2 row">
+            <div class="title">
+              <h3>Level-03, Term-02</h3>
+            </div>
+            <br /><br />
+
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>Credit:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter Credit" id="c32"
+                name="c32" />
+            </div>
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>GPA:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter GPA" id="g32"
+                name="g32" />
+            </div>
+
+            <div class="fau"></div>
+          </div>
+
+          <div class="r2 row">
+            <div class="title">
+              <h3>Level-04, Term-01</h3>
+            </div>
+            <br /><br />
+
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>Credit:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter Credit" id="c41"
+                name="c41" />
+            </div>
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>GPA:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter GPA" id="g41"
+                name="g41" />
+            </div>
+
+            <div class="fau"></div>
+          </div>
+
+          <div class="r2 row">
+            <div class="title">
+              <h3>Level-04, Term-02</h3>
+            </div>
+            <br /><br />
+
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>Credit:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter Credit" id="c42"
+                name="c42" />
+            </div>
+            <div class="col-md-6 col-sm-6" style="color: black; padding: 0px;">
+              <h5>GPA:</h5>
+              <input type="number" step="0.01" min="0" class="form-control" placeholder="Enter GPA" id="g42"
+                name="g42" />
+            </div>
+
+            <div class="fau"></div>
+          </div>
+
+          <div class="submitbtn" style="width: 100%; text-align: center;">
+            <center>
+              <button type="submit" class="btn btn-primary" style="margin-top: 20px; margin-bottom: 20px;">
+                Submit
+              </button>
+            </center>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+  <!-- <script
+      type="text/javascript"
+      src="cgpa_js/angular.radialIndicator.js"
+    ></script>
+    <script type="text/javascript" src="cgpa_js/radialIndicator.js"></script> -->
+
+  <script type="text/javascript">
+    /*function validateForm() {
+		  	var x = document.forms["myForm"]["fname"].value;
+		  	if (x == "") {
+		    	alert("Name must be filled out");
+		    	return false;
+		  	}
+    }*/
+    fetch('/getCGPA').then(response => response.json()).then(data => {
+      var result = data[0];
+      // Set from DB
+      $("#g11").val(result.gpa11);
+      $("#g12").val(result.gpa12);
+      $("#g21").val(result.gpa21);
+      $("#g22").val(result.gpa22);
+      $("#g31").val(result.gpa31);
+      $("#g32").val(result.gpa32);
+      $("#g41").val(result.gpa41);
+      $("#g42").val(result.gpa42);
+
+      $("#c11").val(result.credit11);
+      $("#c12").val(result.credit12);
+      $("#c21").val(result.credit21);
+      $("#c22").val(result.credit22);
+      $("#c31").val(result.credit31);
+      $("#c32").val(result.credit32);
+      $("#c41").val(result.credit41);
+      $("#c42").val(result.credit42);
+
+    });
+
+    $(".btn").on("click", function () {
+      //function DoSubmit() {
+      var x1 = parseFloat($("#g11").val());
+      var x2 = parseFloat($("#g12").val());
+      var x3 = parseFloat($("#g21").val());
+      var x4 = parseFloat($("#g22").val());
+      var x5 = parseFloat($("#g31").val());
+      var x6 = parseFloat($("#g32").val());
+      var x7 = parseFloat($("#g41").val());
+      var x8 = parseFloat($("#g42").val());
+
+      // Form Validation cgpa between 2.00~4.00
+      if (x1 < 2 || x1 > 4 || x2 < 2 || x2 > 4 || x3 < 2 || x3 > 4 || x4 < 2 || x4 > 4 || x5 < 2 || x5 > 4 || x6 <
+        2 || x6 > 4 || x7 < 2 || x7 > 4 || x8 < 2 || x8 > 4
+      ) {
+        alert("GPA range should be between 2.00~4.00");
+        return false;
+      }
+
+      if (Number.isNaN(x1)) {
+        x1 = 0.00;
+      }
+      if (Number.isNaN(x2)) {
+        x2 = 0.00;
+      }
+      if (Number.isNaN(x3)) {
+        x3 = 0.00;
+      }
+      if (Number.isNaN(x4)) {
+        x4 = 0.00;
+      }
+      if (Number.isNaN(x5)) {
+        x5 = 0.00;
+      }
+      if (Number.isNaN(x6)) {
+        x6 = 0.00;
+      }
+      if (Number.isNaN(x7)) {
+        x7 = 0.00;
+      }
+      if (Number.isNaN(x8)) {
+        x8 = 0.00;
+      }
+      //}
+    });
+
+    /*$('.cur').radialIndicator({
+	        barColor: '#00ff00',
+	        barWidth: 20,
+	        minValue: 2.00,
+			maxValue: 400
+	        //roundCorner : true
+		});
+
+		var radialObj = $('.cur').data('radialIndicator');
+		radialObj.animate(375);*/
+  </script>
+</body>
+
+</html>
