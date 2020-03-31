@@ -204,6 +204,10 @@ app.get('/attendance', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/attendance.html'));
 });
 
+app.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname + '/views/about.html'));
+});
+
 app.get('/motivation', (req, res) => {
     res.sendFile(path.join(__dirname + '/views/motivation.html'));
 });
@@ -691,7 +695,7 @@ app.post('/webhook', (req, res) => {
         var td_month = td.getMonth() + 1;
         var td_day = td.getDate();
 
-        let outputDate = `${td_month}/${td_day}/${td_year} ${tConvert(tt.substring(0,5))}`;
+        let outputDate = `${td_month}/${td_day}/${td_year} ${tConvert(tt.substring(0, 5))}`;
 
 
         let title = req.body.queryResult.parameters.remindertitle;
