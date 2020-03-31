@@ -17,7 +17,8 @@ const vRouter = [
     ['reminder', 'reminder'],
     ['weather', 'weather'],
     ['study planner', 'studyplanner'],
-    ['cgpa', 'cgpa']
+    ['cgpa', 'cgpa'],
+    ['about', 'about']
 ];
 
 // Speech Recognition
@@ -139,7 +140,7 @@ function synthVoiceFirst(text) {
     var flag = 0;
 
     const awaitVoices = new Promise(resolve =>
-            window.speechSynthesis.onvoiceschanged = resolve)
+        window.speechSynthesis.onvoiceschanged = resolve)
         .then(() => {
             const synth = window.speechSynthesis;
             const utterance = new SpeechSynthesisUtterance();
